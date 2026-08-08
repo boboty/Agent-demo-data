@@ -1,0 +1,14 @@
+{
+  "data_version": "brewgo-v1.1-20260808",
+  "generated_files": {
+    "input/listing_current.md": "94e806f7ea928fecb8094290ffb004c93b32f42f749d832e8868d058f0e3fbf4",
+    "input/product_profile_g2.md": "1f332c62d5fb340540803d5a2d4fdfe5908e055e527ca24466b3fd69a2849ff8",
+    "input/products.xlsx": "47c0a55c74b8f32b85220632b86535ad8ed26791dea4e2e9afb1b6cf8b59ef07",
+    "input/reviews.csv": "fcc131ac9d19ecbd8688c3e5bbd5d7b047d67a1a127c2839b291688de78e40f4",
+    "outputs/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "task.md": "09cd1ab48670cbdd4a664fc74c17536c4b1f13e16a4977cba4b260edc0c2993c"
+  },
+  "source": "Agent-demo-data/cross-border-ecommerce/brewgo",
+  "stage": "01-direct-task",
+  "workspace": "brewgo/codex/01-direct-task"
+}

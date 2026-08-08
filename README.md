@@ -1,8 +1,6 @@
 # Agent Demo Data
 
-用于课程 Demo 的独立模拟数据仓库。这里维护业务事实、权威原始数据、恢复基线、数据说明和校验脚本；课堂任务、工作副本、输出结果及运行工具由 [demo4bizcourse](https://github.com/boboty/demo4bizcourse) 单独维护。
-
-将数据与 Demo 程序分开后，数据版本可以独立验收和更新，Demo 项目只接收经过校验的快照。
+本仓库维护可供多种 AI 智能体共同使用的虚构业务世界、事实数据、课堂任务和实验材料。Codex、WorkBuddy、Kimi Work 或其他工具都只是这些公共资产的执行入口。
 
 > 仓库中的客户、订单、评论和经营数据均为教学用途的虚构数据，不包含真实客户或个人信息。
 
@@ -10,63 +8,53 @@
 
 | 场景 | 数据集 | 版本 | 说明 |
 |---|---|---|---|
-| 跨境电商 | [BrewGo / G2](cross-border-ecommerce/brewgo/) | [VERSION](cross-border-ecommerce/brewgo/VERSION) | Amazon 手摇咖啡研磨器业务仿真数据 |
+| 跨境电商 | [BrewGo / G2](cross-border-ecommerce/brewgo/) | [VERSION](cross-border-ecommerce/brewgo/VERSION) | Amazon 手摇咖啡研磨器业务仿真数据与课堂实验 |
 
-BrewGo 数据集包含产品、Listing、广告搜索词、供应商报价、评论、客服、订单、库存和成本参数。详细的数据口径、字段关系及教学问题见 [数据集说明](cross-border-ecommerce/brewgo/README.md)。
+## 三层资产边界
+
+### Business / Data
+
+business 定义业务世界、产品事实、品牌和业务规则；data 保存权威原始数据与恢复基线。两者共同构成事实层。
+
+### Classroom
+
+classroom 定义工具无关的课堂任务、输入范围、任务卡、项目上下文和验收方式。核心任务不假定学员使用哪一种智能体。
+
+### Adapters / Workspaces
+
+adapters 只维护具体工具所需的薄适配；workspaces 是由公共资产生成、可以直接打开的课堂目录，不是新的 Source of Truth。
+
+**业务任务是公共资产，工具配置只是适配层。**
 
 ## 仓库结构
 
-```text
-cross-border-ecommerce/
-└── brewgo/
-    ├── business/       # 店铺、产品、品牌和业务规则
-    ├── data/
-    │   ├── raw/        # 权威原始数据
-    │   └── expected/   # 与 raw 一致的恢复基线
-    ├── docs/           # 设计、验收、教学问题和校验说明
-    ├── scripts/        # 数据校验与 Demo 同步脚本
-    ├── README.md
-    └── VERSION
-```
+    cross-border-ecommerce/
+    └── brewgo/
+        ├── business/       # 业务世界与规则
+        ├── data/           # raw 权威数据与 expected 恢复基线
+        ├── classroom/      # 工具无关的课堂阶段
+        ├── adapters/       # 各智能体工具的薄适配
+        ├── workspaces/     # 可重建的课堂运行目录
+        ├── instructor/     # 教师手册，不进入学员工作区
+        ├── docs/           # 数据设计、教学问题和验收记录
+        ├── scripts/        # 数据校验与工作区生成脚本
+        ├── README.md
+        └── VERSION
 
-本仓库不保存 Demo 的 `data/work/`、`outputs/`、课堂 Task、Skill 或自动化配置。
+## 快速验证与生成
 
-## 快速验证
+在仓库根目录运行：
 
-校验脚本仅依赖 Python 3 标准库。在仓库根目录运行：
+    python3 cross-border-ecommerce/brewgo/scripts/validate_data.py
+    python3 cross-border-ecommerce/brewgo/scripts/build_classroom_workspaces.py
 
-```bash
-python3 cross-border-ecommerce/brewgo/scripts/validate_data.py
-```
-
-校验覆盖文件完整性、`raw/expected` 一致性、表结构、公式缓存、SKU 引用、跨表关系和日期边界。已登记的教学问题会以 warning 输出，不视为校验失败。
-
-## 同步到 Demo
-
-数据验收通过后，在 BrewGo 数据集目录运行同步脚本，并显式指定本地 Demo 项目路径：
-
-```bash
-cd cross-border-ecommerce/brewgo
-python3 scripts/sync_brewgo_data.py \
-  --demo-root /path/to/demo4bizcourse/brewgo-codex-course
-```
-
-默认只同步 `business/`、`data/raw/`、`data/expected/`，并生成带版本号和 SHA-256 的 manifest；不会修改 Demo 的 `data/work/` 和 `outputs/`。
-
-只有需要同时恢复课堂工作副本时才使用：
-
-```bash
-python3 scripts/sync_brewgo_data.py \
-  --demo-root /path/to/demo4bizcourse/brewgo-codex-course \
-  --reset
-```
-
-`--reset` 会用 `data/expected/` 替换 Demo 的 `data/work/`，执行前请确认其中没有需要保留的课堂修改。
+校验脚本覆盖文件完整性、raw/expected 一致性、表结构、公式缓存、SKU 引用、跨表关系和日期边界。生成脚本会从 business、data、classroom 和 adapters 重建 Codex 三阶段工作区，并写入数据版本清单。
 
 ## 维护约定
 
 1. 业务事实、数据文件和字段说明应同步更新，避免只改数据不改口径。
-2. `data/raw/` 与 `data/expected/` 必须保持逐文件一致。
-3. 数据变更后更新 `VERSION`，并运行校验脚本。
-4. 校验通过后再同步到 Demo；Demo 中的快照不作为反向修改数据源。
-5. 有意保留的数据质量问题应记录在 `docs/planted_issues.md`，未登记的问题按缺陷处理。
+2. data/raw 与 data/expected 必须保持逐文件一致。
+3. 数据变更后更新 VERSION，并运行校验脚本。
+4. classroom 不写入特定工具配置；工具差异只放在 adapters 和生成后的 workspaces。
+5. workspaces 可以随时重建，不应反向成为业务或任务定义的数据源。
+6. 有意保留的数据质量问题记录在 docs/planted_issues.md，未登记的问题按缺陷处理。

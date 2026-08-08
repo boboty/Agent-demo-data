@@ -1,12 +1,10 @@
-# BrewGo 数据验证
+# BrewGo 数据与课堂工作区验证
 
 ## Source of Truth 校验
 
-在 `Agent-demo-data/cross-border-ecommerce/brewgo/` 运行：
+在 Agent-demo-data/cross-border-ecommerce/brewgo/ 运行：
 
-```bash
-python3 scripts/validate_data.py
-```
+    python3 scripts/validate_data.py
 
 检查内容包括：
 
@@ -21,20 +19,21 @@ python3 scripts/validate_data.py
 
 规范化重复 SKU 是已登记教学问题，因此显示 warning 而不是失败。
 
-## 校验 Demo 快照
+## 课堂工作区校验
 
-开发期可以用同一脚本检查独立 Demo，并要求 work 文件齐全：
+Codex 课堂工作区由公共资产生成：
 
-```bash
-python3 scripts/validate_data.py \
-  --project-root ../../../Demo/brewgo-codex-course \
-  --include-work
-```
+    python3 scripts/build_classroom_workspaces.py
 
-## Reset 与同步边界
+生成后应确认：
 
-- `sync_brewgo_data.py` 默认只更新 Demo 的 business、raw、expected 和 manifest。
-- 默认不修改 Demo 的 `data/work/`，只有 `--reset` 才恢复 work。
-- 同步和 reset 均不得覆盖 `outputs/`。
-- 课堂 reset 由 Demo 内的 `scripts/reset_demo.py` 独立执行，不依赖 Agent-demo-data 存在。
+- 三个阶段目录都包含 input 和 outputs；
+- 01 与 02 的输入资料一致；
+- 02 与 03 的任务卡字节一致；
+- 01 与 02 没有业务型 AGENTS.md，03 才包含；
+- 03 含完整 business 快照和工具无关的 project-context.md；
+- workspace-manifest.json 中的数据版本与 VERSION 一致；
+- instructor 内容没有进入任何学员工作区；
+- 生成目录中不存在软链接。
 
+workspaces 是可重建的离线副本，不得反向修改 business、data 或 classroom。

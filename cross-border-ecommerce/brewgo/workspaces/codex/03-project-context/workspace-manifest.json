@@ -1,0 +1,21 @@
+{
+  "data_version": "brewgo-v1.1-20260808",
+  "generated_files": {
+    "AGENTS.md": "a4a5fe2d8de397eea80d45d7e15f5ed3636618789746facc87119d36364f6dfc",
+    "business/brand_rules.md": "8d6df5f0e19809b89b8aeca8c379ce014837dac20453f2215f582707819249f9",
+    "business/business_rules.md": "e7bc56ddd34af0cc23b570fc3cd265980cd9ef7f1d647e9d1008444019505a78",
+    "business/field_dictionary.md": "c9a312c763a19462d35fe098d157516cbbbc72751b5b196e9d83aee19f9b5f15",
+    "business/product_profile_g2.md": "1f332c62d5fb340540803d5a2d4fdfe5908e055e527ca24466b3fd69a2849ff8",
+    "business/store_profile.md": "35d4b019bf4202a439f63db6fbb7f6cd226d4571ec1d7013f4bc101e59cf270b",
+    "input/listing_current.md": "94e806f7ea928fecb8094290ffb004c93b32f42f749d832e8868d058f0e3fbf4",
+    "input/product_profile_g2.md": "1f332c62d5fb340540803d5a2d4fdfe5908e055e527ca24466b3fd69a2849ff8",
+    "input/products.xlsx": "47c0a55c74b8f32b85220632b86535ad8ed26791dea4e2e9afb1b6cf8b59ef07",
+    "input/reviews.csv": "fcc131ac9d19ecbd8688c3e5bbd5d7b047d67a1a127c2839b291688de78e40f4",
+    "outputs/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "project-context.md": "502c1602ad134013d5ffc96356df987185ec9ac6a915012882a6a6707a99f63e",
+    "task-card.md": "54383e434ddb9ea847ecf403697c6d7d626ef26107bdadc028574a7f2757b5bf"
+  },
+  "source": "Agent-demo-data/cross-border-ecommerce/brewgo",
+  "stage": "03-project-context",
+  "workspace": "brewgo/codex/03-project-context"
+}
