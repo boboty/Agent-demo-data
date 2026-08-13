@@ -1,6 +1,6 @@
 # BrewGo Codex Workspace Guide
 
-本工作区用于 BrewGo G2 虚构业务课堂。开始任务前依次阅读 task-card.md、project-context.md，以及 business/ 中与任务相关的文件。
+本工作区用于 BrewGo G2 虚构业务课堂。开始任务前阅读 project-context.md，以及 business/ 中与任务相关的文件，再检查 input/ 中的当前任务材料。
 
 - business/ 与 input/ 是生成的只读课堂材料，不得覆盖、删除或原地修改。
 - 先以 business/product_profile_g2.md 核对产品事实，再应用 business/brand_rules.md 和 business/business_rules.md。
