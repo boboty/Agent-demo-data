@@ -10,13 +10,31 @@ from pathlib import Path
 
 SOURCE_ROOT = Path(__file__).resolve().parents[1]
 WORKSPACES_ROOT = SOURCE_ROOT / "workspaces" / "codex"
-STAGE_NAMES = ("01-direct-task", "02-task-card", "03-project-context")
+STAGE_NAMES = (
+    "01-direct-task",
+    "02-task-card",
+    "03-project-context",
+    "04-fba-profit-calculator",
+)
 
 COMMON_INPUTS = (
     (Path("data/raw/listing_current.md"), Path("input/listing_current.md")),
     (Path("business/product_profile_g2.md"), Path("input/product_profile_g2.md")),
     (Path("data/raw/products.xlsx"), Path("input/products.xlsx")),
     (Path("data/raw/reviews.csv"), Path("input/reviews.csv")),
+)
+
+BUSINESS_SNAPSHOT = (
+    (Path("business/store_profile.md"), Path("business/store_profile.md")),
+    (Path("business/product_profile_g2.md"), Path("business/product_profile_g2.md")),
+    (Path("business/brand_rules.md"), Path("business/brand_rules.md")),
+    (Path("business/business_rules.md"), Path("business/business_rules.md")),
+    (Path("business/field_dictionary.md"), Path("business/field_dictionary.md")),
+)
+
+FBA_INPUTS = (
+    (Path("data/raw/products.xlsx"), Path("input/products.xlsx")),
+    (Path("data/raw/cost_parameters.xlsx"), Path("input/cost_parameters.xlsx")),
 )
 
 STAGE_ASSETS = {
@@ -30,12 +48,15 @@ STAGE_ASSETS = {
     "03-project-context": (
         (Path("classroom/03-project-context/project-context.md"), Path("project-context.md")),
         (Path("adapters/codex/AGENTS.md.template"), Path("AGENTS.md")),
-        (Path("business/store_profile.md"), Path("business/store_profile.md")),
-        (Path("business/product_profile_g2.md"), Path("business/product_profile_g2.md")),
-        (Path("business/brand_rules.md"), Path("business/brand_rules.md")),
-        (Path("business/business_rules.md"), Path("business/business_rules.md")),
-        (Path("business/field_dictionary.md"), Path("business/field_dictionary.md")),
+        *BUSINESS_SNAPSHOT,
         *COMMON_INPUTS,
+    ),
+    "04-fba-profit-calculator": (
+        (Path("classroom/03-project-context/project-context.md"), Path("project-context.md")),
+        (Path("classroom/04-fba-profit-calculator/profit-rules.md"), Path("profit-rules.md")),
+        (Path("adapters/codex/AGENTS.md.fba-profit.template"), Path("AGENTS.md")),
+        *BUSINESS_SNAPSHOT,
+        *FBA_INPUTS,
     ),
 }
 

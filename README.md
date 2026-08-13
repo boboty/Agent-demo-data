@@ -48,7 +48,7 @@ adapters 只维护具体工具所需的薄适配；workspaces 是由公共资产
     python3 cross-border-ecommerce/brewgo/scripts/validate_data.py
     python3 cross-border-ecommerce/brewgo/scripts/build_classroom_workspaces.py
 
-校验脚本覆盖文件完整性、raw/expected 一致性、表结构、公式缓存、SKU 引用、跨表关系和日期边界。生成脚本会从 business、data、classroom 和 adapters 重建 Codex 三阶段工作区，并写入数据版本清单。
+校验脚本覆盖文件完整性、raw/expected 一致性、表结构、公式缓存、SKU 引用、跨表关系和日期边界。生成脚本会从 business、data、classroom 和 adapters 重建 Codex 课堂工作区，并写入数据版本清单。
 
 ## 维护约定
 
