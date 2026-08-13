@@ -8,6 +8,6 @@
 2. 02-task-card：保持输入资料不变，由讲师从 `02-task-card/INSTRUCTOR_COPY_PROMPT.md` 复制完整任务定义并粘贴到对话框；该提示词不进入 Codex 工作区。
 3. 03-project-context：重新只给一句自然指令，但工作区加入 AGENTS.md、project-context.md 和 business/ 长期规则，展示一次性任务定义与稳定项目环境的分工。
 4. 04-fba-profit-calculator：给智能体业务规则与成本资料，让它在现场生成可运行的 FBA 单件利润测算器，验证缺失数据与口径冲突的边界。
-5. 05-search-term-skill：预留给后续 Search Term Skill 课程。
+5. 05-search-term-skill：第一次把 Search Term 分析方法完整交给智能体，第二次沉淀成 Skill，第三次新会话只给一句任务复跑，展示"反复出现的工作方法沉淀成 Skill"。
 
 business、data 和本目录是公共资产；具体工具配置应放入 adapters，由生成脚本组装成 workspaces。

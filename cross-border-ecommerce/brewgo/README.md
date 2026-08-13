@@ -24,7 +24,7 @@
 2. classroom/02-task-card：保持相同资料，由讲师从 `INSTRUCTOR_COPY_PROMPT.md` 复制完整任务定义并粘贴到对话框；该提示词不进入 Codex 工作区。
 3. classroom/03-project-context：再次只给一句自然指令，但工作区加入 AGENTS.md、project-context.md 和 business/ 长期业务环境，用于观察稳定项目规则对执行方式的影响。
 4. classroom/04-fba-profit-calculator：给智能体业务规则与成本资料，现场生成可运行的 FBA 单件利润测算器，观察缺失数据与口径冲突边界。
-5. classroom/05-search-term-skill：预留给后续 Search Term Skill 课程，本轮仅建立边界占位。
+5. classroom/05-search-term-skill：第一次把 Search Term 分析方法完整交给智能体，第二次沉淀成 Skill，第三次新会话只给一句任务复跑，展示"反复出现的工作方法沉淀成 Skill"。
 
 ## 数据口径
 
@@ -42,7 +42,7 @@ orders.xlsx 是面向订单异常分析的非代表性样本，不是店铺全�
 
     python3 scripts/build_classroom_workspaces.py
 
-脚本只读取 business、data、classroom、adapters 和 VERSION，安全清理并重建 workspaces/codex/01-direct-task、02-task-card、03-project-context、04-fba-profit-calculator。每个工作区均为无软链接的离线副本，并带有确定性的 workspace-manifest.json。
+脚本只读取 business、data、classroom、adapters 和 VERSION，安全清理并重建 workspaces/codex/01-direct-task、02-task-card、03-project-context、04-fba-profit-calculator、05-search-term-skill。每个工作区均为无软链接的离线副本，并带有确定性的 workspace-manifest.json。Demo 05 的两份 Search Term 输入由 `scripts/build_search_term_splits.py` 从 data/raw 确定性派生。
 
 课堂使用时在 Codex App 中依次打开：
 
@@ -50,5 +50,6 @@ orders.xlsx 是面向订单异常分析的非代表性样本，不是店铺全�
 2. workspaces/codex/02-task-card
 3. workspaces/codex/03-project-context
 4. workspaces/codex/04-fba-profit-calculator
+5. workspaces/codex/05-search-term-skill
 
-前两个阶段不包含完整业务型 AGENTS.md；第三阶段才由 adapters/codex/AGENTS.md.template 注入完整项目规则，第四阶段由 adapters/codex/AGENTS.md.fba-profit.template 注入利润测算规则，避免父目录规则提前污染实验。
+前两个阶段不包含完整业务型 AGENTS.md；第三阶段才由 adapters/codex/AGENTS.md.template 注入完整项目规则，第四阶段由 adapters/codex/AGENTS.md.fba-profit.template 注入利润测算规则，第五阶段由 adapters/codex/AGENTS.md.search-term-skill.template 注入 Search Term 分析规则，避免父目录规则提前污染实验。

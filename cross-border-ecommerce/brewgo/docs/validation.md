@@ -30,9 +30,10 @@ Codex 课堂工作区由公共资产生成：
 - 各阶段目录都包含 input 和 outputs；
 - 01 与 02 的输入资料一致；
 - 02 与 03 都不包含 task-card.md（任务卡由讲师粘贴到对话框，不进入工作区）；
-- 01 与 02 没有业务型 AGENTS.md，03 与 04 才包含；
+- 01 与 02 没有业务型 AGENTS.md，03、04、05 才包含；
 - 03 含完整 business 快照和工具无关的 project-context.md；
 - 04 含 profit-rules.md、完整 business 快照、products.xlsx 与 cost_parameters.xlsx，且不含任何预制 app、JS 或最终 HTML；
+- 05 含完整 business 快照、project-context.md、input/history 与 input/next-period 两份 Search Term 输入，outputs 分 first-run / second-run，且初始不含任何 SKILL.md（`.agents/skills/` 仅为空占位）；
 - workspace-manifest.json 中的数据版本与 VERSION 一致；
 - instructor 内容没有进入任何学员工作区；
 - 生成目录中不存在软链接。

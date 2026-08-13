@@ -15,6 +15,7 @@ STAGE_NAMES = (
     "02-task-card",
     "03-project-context",
     "04-fba-profit-calculator",
+    "05-search-term-skill",
 )
 
 COMMON_INPUTS = (
@@ -35,6 +36,17 @@ BUSINESS_SNAPSHOT = (
 FBA_INPUTS = (
     (Path("data/raw/products.xlsx"), Path("input/products.xlsx")),
     (Path("data/raw/cost_parameters.xlsx"), Path("input/cost_parameters.xlsx")),
+)
+
+SEARCH_TERM_INPUTS = (
+    (
+        Path("classroom/05-search-term-skill/input/history/search_terms_history.xlsx"),
+        Path("input/history/search_terms_history.xlsx"),
+    ),
+    (
+        Path("classroom/05-search-term-skill/input/next-period/search_terms_latest.xlsx"),
+        Path("input/next-period/search_terms_latest.xlsx"),
+    ),
 )
 
 STAGE_ASSETS = {
@@ -58,6 +70,21 @@ STAGE_ASSETS = {
         *BUSINESS_SNAPSHOT,
         *FBA_INPUTS,
     ),
+    "05-search-term-skill": (
+        (Path("classroom/03-project-context/project-context.md"), Path("project-context.md")),
+        (Path("adapters/codex/AGENTS.md.search-term-skill.template"), Path("AGENTS.md")),
+        *BUSINESS_SNAPSHOT,
+        *SEARCH_TERM_INPUTS,
+    ),
+}
+
+# Directories created empty (with a .gitkeep marker) in each stage's workspace.
+STAGE_EMPTY_DIRS = {
+    "01-direct-task": ("outputs",),
+    "02-task-card": ("outputs",),
+    "03-project-context": ("outputs",),
+    "04-fba-profit-calculator": ("outputs",),
+    "05-search-term-skill": ("outputs/first-run", "outputs/second-run", ".agents/skills"),
 }
 
 
@@ -77,6 +104,8 @@ def validate_relative(path: Path, label: str) -> None:
 def preflight() -> None:
     if tuple(STAGE_ASSETS) != STAGE_NAMES:
         raise SystemExit("Stage asset map must exactly match the approved stage whitelist")
+    if tuple(STAGE_EMPTY_DIRS) != STAGE_NAMES:
+        raise SystemExit("Stage empty-dir map must exactly match the approved stage whitelist")
     if WORKSPACES_ROOT.is_symlink():
         raise SystemExit(f"Workspace root must not be a symlink: {WORKSPACES_ROOT}")
     for stage, assets in STAGE_ASSETS.items():
@@ -92,6 +121,13 @@ def preflight() -> None:
             source = SOURCE_ROOT / source_relative
             if source.is_symlink() or not source.is_file():
                 raise SystemExit(f"Missing or unsupported source file: {source}")
+    for stage, empty_dirs in STAGE_EMPTY_DIRS.items():
+        seen: set[Path] = set()
+        for relative in empty_dirs:
+            validate_relative(Path(relative), "empty dir")
+            if Path(relative) in seen:
+                raise SystemExit(f"Duplicate empty dir in {stage}: {relative}")
+            seen.add(Path(relative))
     version_file = SOURCE_ROOT / "VERSION"
     if version_file.is_symlink() or not version_file.is_file():
         raise SystemExit(f"Missing or unsupported VERSION file: {version_file}")
@@ -109,11 +145,12 @@ def build_stage(stage: str, temporary_root: Path, version: str) -> None:
         shutil.copy2(source, destination)
         copied[destination_relative.as_posix()] = sha256(destination)
 
-    outputs = stage_root / "outputs"
-    outputs.mkdir()
-    marker = outputs / ".gitkeep"
-    marker.write_text("", encoding="utf-8")
-    copied["outputs/.gitkeep"] = sha256(marker)
+    for relative in STAGE_EMPTY_DIRS[stage]:
+        empty_dir = stage_root / relative
+        empty_dir.mkdir(parents=True, exist_ok=True)
+        marker = empty_dir / ".gitkeep"
+        marker.write_text("", encoding="utf-8")
+        copied[f"{relative}/.gitkeep"] = sha256(marker)
 
     manifest = {
         "workspace": f"brewgo/codex/{stage}",

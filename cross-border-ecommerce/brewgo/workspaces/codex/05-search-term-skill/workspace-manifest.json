@@ -1,0 +1,20 @@
+{
+  "data_version": "brewgo-v1.1-20260808",
+  "generated_files": {
+    ".agents/skills/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "AGENTS.md": "920a1303531466efcc372c37f2871eb738d03f5e83f3ba32a9183336bf6d84b1",
+    "business/brand_rules.md": "8d6df5f0e19809b89b8aeca8c379ce014837dac20453f2215f582707819249f9",
+    "business/business_rules.md": "e7bc56ddd34af0cc23b570fc3cd265980cd9ef7f1d647e9d1008444019505a78",
+    "business/field_dictionary.md": "c9a312c763a19462d35fe098d157516cbbbc72751b5b196e9d83aee19f9b5f15",
+    "business/product_profile_g2.md": "1f332c62d5fb340540803d5a2d4fdfe5908e055e527ca24466b3fd69a2849ff8",
+    "business/store_profile.md": "35d4b019bf4202a439f63db6fbb7f6cd226d4571ec1d7013f4bc101e59cf270b",
+    "input/history/search_terms_history.xlsx": "7dd43b74984b0e9fb2b068ce92dd82894fe22e4d776c8c71e19e77df7d3f113e",
+    "input/next-period/search_terms_latest.xlsx": "2c0b09d50f9dfd8e65627ebdcfd3b6b7ca7535ddb6292cbc34b300b6cd0d455f",
+    "outputs/first-run/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "outputs/second-run/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "project-context.md": "30186dac8e17e20a6373780e08aac1695cc7fee14d024ff74c91e644c09c97af"
+  },
+  "source": "Agent-demo-data/cross-border-ecommerce/brewgo",
+  "stage": "05-search-term-skill",
+  "workspace": "brewgo/codex/05-search-term-skill"
+}
