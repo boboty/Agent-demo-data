@@ -21,7 +21,7 @@
 
 1. 第一轮：打开 `INSTRUCTOR_COPY_PROMPT_FIRST_RUN.md`，完整粘贴到 Codex 对话框，分析 history 数据。
 2. 第二轮：验收后打开 `INSTRUCTOR_COPY_PROMPT_CREATE_SKILL.md`，把方法沉淀成 Skill。
-3. 第三轮：新会话，切换输入到 next-period，只给一句"分析一下这周的 Search Term。"。
+3. 第三轮：新会话，切换输入到 next-period，只给一句"看看最新这批 Search Term 有什么需要处理的。"。
 
 ## 本阶段不放
 

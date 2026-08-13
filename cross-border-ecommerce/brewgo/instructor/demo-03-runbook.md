@@ -6,7 +6,32 @@ Demo 02 证明任务卡能提高一次性交付质量，但品牌事实、业务
 
 ## 打开目录
 
-新开或切换到 workspaces/codex/03-project-context。先展示 task-card.md 与 Demo 02 字节一致，再展示新增的 project-context.md、business/ 和根目录 AGENTS.md。
+新开或切换到 workspaces/codex/03-project-context。该工作区只有：
+
+- AGENTS.md
+- project-context.md
+- business/
+- input/
+- outputs/
+
+**没有 Task Card。**
+
+## 回到一句话
+
+课堂重新回到和 Demo 01 完全相同的一句话：
+
+> 帮我优化一下这个 Listing。
+
+## 长期内容去了哪里
+
+Demo 02 中每次都要重复说明的长期内容，已经进入 Project Context / AGENTS / business 环境：
+
+- 事实在哪里；
+- 哪些资料有什么证据资格；
+- 原始资料如何处理；
+- 外部动作权限边界；
+- 长期业务规则；
+- 输出与自检原则。
 
 ## AGENTS.md 何时出现
 
@@ -14,7 +39,7 @@ Demo 02 证明任务卡能提高一次性交付质量，但品牌事实、业务
 
 ## 执行与比较
 
-让智能体执行与 Demo 02 相同的 task-card.md，比较：
+让智能体执行那一句话，比较：
 
 - 是否更稳定地读取产品事实、品牌规则和业务规则。
 - 是否主动处理绝对化表达和高风险动作边界。
@@ -22,4 +47,14 @@ Demo 02 证明任务卡能提高一次性交付质量，但品牌事实、业务
 - 是否把长期规则与本次具体交付分开。
 - 即使换一个任务，哪些项目规则仍可复用。
 
-课堂结论不是“规则越多越好”，而是稳定、跨任务的规则应成为项目上下文，一次性目标和交付仍留在任务卡中。
+## 教学结论
+
+不要写成"Demo 03 比 Demo 02 生成的 Listing 一定明显更好"。
+
+应该写：
+
+**Task Card 管这一次任务；Project Context 管以后在这里默认怎么工作。**
+
+以及：
+
+**Demo 01 和 Demo 03 都只有一句话，但 Demo 03 的一句话背后已经站着一个长期项目环境。**

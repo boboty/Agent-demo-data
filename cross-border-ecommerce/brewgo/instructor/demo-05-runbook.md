@@ -92,7 +92,7 @@ Source of Truth 是 `data/raw/search_terms.xlsx`（105 行，5 个观察期 × 2
 1. 保持新会话，输入切换到 `input/next-period/search_terms_latest.xlsx`。
 2. 只给一句：
 
-   > 分析一下这周的 Search Term。
+   > 看看最新这批 Search Term 有什么需要处理的。
 
 观察新会话是否：识别并使用 Skill；主动做日期规范化；做跨期聚合；重算指标；不平均 ACoS；判断相关性；区分低样本与事实不匹配；输出结构与第一次一致；保留人工确认边界；不执行广告否定动作。
 

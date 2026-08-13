@@ -2,7 +2,7 @@
   "data_version": "brewgo-v1.1-20260808",
   "generated_files": {
     ".agents/skills/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "AGENTS.md": "920a1303531466efcc372c37f2871eb738d03f5e83f3ba32a9183336bf6d84b1",
+    "AGENTS.md": "9c442b01168d1ac5642ae444b38c296ef9a9b3b45bae963958f173d8595897c4",
     "business/brand_rules.md": "8d6df5f0e19809b89b8aeca8c379ce014837dac20453f2215f582707819249f9",
     "business/business_rules.md": "e7bc56ddd34af0cc23b570fc3cd265980cd9ef7f1d647e9d1008444019505a78",
     "business/field_dictionary.md": "c9a312c763a19462d35fe098d157516cbbbc72751b5b196e9d83aee19f9b5f15",
