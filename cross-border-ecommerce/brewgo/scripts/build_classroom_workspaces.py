@@ -25,11 +25,9 @@ STAGE_ASSETS = {
         *COMMON_INPUTS,
     ),
     "02-task-card": (
-        (Path("classroom/02-task-card/task-card.md"), Path("task-card.md")),
         *COMMON_INPUTS,
     ),
     "03-project-context": (
-        (Path("classroom/03-project-context/task-card.md"), Path("task-card.md")),
         (Path("classroom/03-project-context/project-context.md"), Path("project-context.md")),
         (Path("adapters/codex/AGENTS.md.template"), Path("AGENTS.md")),
         (Path("business/store_profile.md"), Path("business/store_profile.md")),
