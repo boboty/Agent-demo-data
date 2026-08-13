@@ -7,7 +7,7 @@
 - business/：店铺、产品事实、品牌规则、业务规则和字段字典。
 - data/raw/：权威原始数据，禁止直接修改。
 - data/expected/：与 raw 一致的恢复基线。
-- classroom/：工具无关的任务说明、任务卡和项目上下文。
+- classroom/：工具无关的任务说明、讲师复制提示词和项目上下文。
 - adapters/：具体智能体工具的薄适配，不反向修改公共任务。
 - workspaces/：由脚本生成的课堂运行目录，不是 Source of Truth。
 - instructor/：教师运行手册和观察指引，不复制到学员工作区。
@@ -21,8 +21,8 @@
 ## 三个课堂阶段
 
 1. classroom/01-direct-task：用自然的一句话交付 Listing 优化工作，只提供必要资料。
-2. classroom/02-task-card：使用相同资料，增加目标、输入、约束、输出和验收清晰的任务卡。
-3. classroom/03-project-context：保持任务卡不变，加入可长期复用的项目上下文。
+2. classroom/02-task-card：保持相同资料，由讲师从 `INSTRUCTOR_COPY_PROMPT.md` 复制完整任务定义并粘贴到对话框；该提示词不进入 Codex 工作区。
+3. classroom/03-project-context：再次只给一句自然指令，但工作区加入 AGENTS.md、project-context.md 和 business/ 长期业务环境，用于观察稳定项目规则对执行方式的影响。
 
 classroom/04-data-analysis 和 classroom/05-validation 本轮仅建立边界占位，不扩展课程内容。
 
