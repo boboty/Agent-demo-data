@@ -1,0 +1,4 @@
+interface:
+  display_name: "Supplier Quote Compare"
+  short_description: "Compare supplier quotes, risks, and gaps"
+  default_prompt: "Use $supplier-quote-compare to compare these supplier quotes and write the results to outputs/."

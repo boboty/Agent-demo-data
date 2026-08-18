@@ -1,0 +1,5 @@
+Product: BrewGo G2
+Model: G2-BLK
+Capacity: 30 g
+Operation: manual hand crank
+Burr: stainless steel

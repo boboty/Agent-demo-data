@@ -1,0 +1,4 @@
+interface:
+  display_name: "Amazon Inventory Watch"
+  short_description: "Flag stockout, overstock, and data risks"
+  default_prompt: "Use $amazon-inventory-watch to review this inventory file and write the results to outputs/."

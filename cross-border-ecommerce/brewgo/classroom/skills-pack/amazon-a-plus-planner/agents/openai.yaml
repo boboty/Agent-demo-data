@@ -1,0 +1,4 @@
+interface:
+  display_name: "Amazon A+ Planner"
+  short_description: "Plan evidence-based Amazon A+ modules"
+  default_prompt: "Use $amazon-a-plus-planner to plan Amazon A+ content from these source files and write it to outputs/."

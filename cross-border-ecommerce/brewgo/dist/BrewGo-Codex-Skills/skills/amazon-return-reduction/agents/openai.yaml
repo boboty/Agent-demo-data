@@ -1,0 +1,4 @@
+interface:
+  display_name: "Amazon Return Reduction"
+  short_description: "Classify return causes and action priorities"
+  default_prompt: "Use $amazon-return-reduction to analyze these return records and write the results to outputs/."

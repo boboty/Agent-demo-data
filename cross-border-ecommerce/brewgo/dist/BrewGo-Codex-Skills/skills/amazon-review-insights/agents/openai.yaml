@@ -1,0 +1,4 @@
+interface:
+  display_name: "Amazon Review Insights"
+  short_description: "Analyze review themes and evidence gaps"
+  default_prompt: "Use $amazon-review-insights to analyze these review files and write the results to outputs/."

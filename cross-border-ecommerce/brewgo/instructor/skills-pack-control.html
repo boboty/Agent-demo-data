@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BrewGo 8 Skills｜课堂控制台</title>
+  <style>
+    :root{--ink:#17211b;--muted:#5d6861;--green:#174b35;--lime:#e9f3a7;--line:#d8e0db;--paper:#f4f7f4}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.5 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}header{padding:32px clamp(22px,5vw,72px);background:var(--green);color:#fff}header small{color:var(--lime);font-weight:900;letter-spacing:.08em}h1{margin:5px 0;font-size:clamp(34px,4vw,54px);line-height:1.1}header p{margin:8px 0 0;color:#dce8e1;font-size:20px}main{max-width:1540px;margin:auto;padding:26px clamp(18px,4vw,56px) 52px}.install{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}.install section,.card{background:#fff;border:1px solid var(--line);border-radius:14px}.install section{padding:16px 18px}.install h2{margin:0 0 6px;font-size:19px}.install p{margin:3px 0;color:var(--muted)}code,.path{font:15px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;overflow-wrap:anywhere}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card{display:flex;flex-direction:column;padding:22px;min-height:430px;box-shadow:0 7px 20px rgba(23,33,27,.05)}.tag{font-size:14px;font-weight:900;color:var(--green);letter-spacing:.05em}.card h2{font-size:27px;margin:3px 0}.purpose{margin:0 0 10px;color:var(--muted);font-size:18px}.path{padding:9px 11px;border-radius:8px;background:#eef2ef}.card h3{margin:14px 0 3px;font-size:16px}.card ul{margin:3px 0 10px;padding-left:22px}.card li{margin:3px 0}.accept{padding:9px 11px;border-left:4px solid var(--green);background:#f6f8f5}.close{font-weight:750;margin:10px 0}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:auto}button{padding:10px 14px;border:1px solid var(--green);border-radius:8px;background:#fff;color:var(--green);font:700 16px/1 system-ui;cursor:pointer}button.primary{background:var(--green);color:#fff}#toast{position:fixed;right:22px;bottom:22px;background:var(--ink);color:#fff;padding:11px 16px;border-radius:8px;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none}#toast.show{opacity:1;transform:none}@media(max-width:950px){.install,.grid{grid-template-columns:1fr}.card{min-height:0}}
+  </style>
+</head>
+<body>
+<header><small>BREWGO · INSTALLABLE CLASSROOM SKILLS</small><h1>8 Skills｜一句话直接演示</h1><p>离线数据 · 自动触发 · 结果可验收 · 敏感边界交给人</p></header>
+<main>
+  <div class="install">
+    <section><h2>macOS 安装</h2><p>双击或运行：</p><code>dist/BrewGo-Codex-Skills/install-mac.command</code><p>目标：<code>$HOME/.agents/skills</code></p></section>
+    <section><h2>Windows 安装</h2><p>双击：</p><code>dist\BrewGo-Codex-Skills\install-windows.bat</code><p>目标：<code>%USERPROFILE%\.agents\skills</code></p></section>
+    <section><h2>确认 8 Skills 已安装</h2><p>在 Skills 列表或 <code>/skills</code> 中检查 8 个名称。通常自动发现；未出现时重启 Codex。</p></section>
+  </div>
+  <div class="grid" id="cards"></div>
+</main>
+<div id="toast" role="status"></div>
+<script>
+const tasks=[
+{id:"01",skill:"amazon-review-insights",cn:"Amazon Review Insights",purpose:"从评论中提炼客户声音、主题、证据和矛盾。",prompt:"分析一下这些评论，告诉我客户最喜欢什么、最不满意什么，以及哪些问题值得优先解决。",watch:["是否先说明 60 条样本与评分","主题是否有 review_id 证据","产品、包装、误解与矛盾是否分开"],accept:"不得用一两条评论下总体结论，也不得改写完整 Listing。",close:"客户声音可以变成行动，但不能变成未经验证的产品事实。"},
+{id:"02",skill:"amazon-return-reduction",cn:"Amazon Return Reduction",purpose:"归类退货原因，量化重复信号并形成优先行动。",prompt:"看一下最近这些退货，帮我判断主要原因，以及哪些问题值得先处理。",watch:["六类原因是否齐全","重复问题是否连到 SKU/order_id","无评论记录是否留在数据不足"],accept:"不得批准退款、承诺赔偿或把客户说法当成已证实根因。",close:"减少退货的第一步不是猜根因，而是把信号分对类。"},
+{id:"03",skill:"amazon-inventory-watch",cn:"Amazon Inventory Watch",purpose:"识别断货、积压、销量突增与数据缺口。",prompt:"帮我看看这份库存表，哪些 SKU 有断货或者积压风险。",watch:["覆盖天数和阈值是否透明","3 个断货风险、2 个积压是否出现","ETA/lead time/新品缺口是否暴露"],accept:"数据不全时不得给确定补货量或猜测缺失字段。",close:"数据缺口也是库存预警的一部分。"},
+{id:"04",skill:"amazon-listing-localizer",cn:"Amazon Listing Localizer",purpose:"保持事实不变，把 US Listing 本地化为 UK 表达。",prompt:"把这个 Amazon US Listing 本地化成 Amazon UK 版本，产品事实不要改变。",watch:["是否先锁定产品事实","拼写、单位与消费语境是否变化","US warranty 与 TSA wording 是否移出"],accept:"不得加入新关键词、新卖点或未经资料支持的平台规则。",close:"本地化不是翻译，是事实不变、市场表达变化。"},
+{id:"05",skill:"amazon-a-plus-planner",cn:"Amazon A+ Planner",purpose:"从产品事实、评论和图片资产规划 A+ 模块。",prompt:"根据这些产品资料和评论，帮我规划一套 Amazon A+ 页面。",watch:["六类模块与图片任务是否齐全","每个说法是否有来源或确认标记","titanium burr 冲突是否拦截"],accept:"不得生成未经支持的认证、保证、性能或竞品事实。",close:"好的 A+ 计划先告诉团队能说什么、还缺什么。"},
+{id:"06",skill:"supplier-quote-compare",cn:"Supplier Quote Compare",purpose:"对齐多家报价，比较成本条件、风险和缺口。",prompt:"比较这几家供应商的报价，告诉我差异、风险和需要确认的问题。",watch:["3 家/3 SKU/8 条是否对齐","隐藏包装费和临期报价是否出现","CNY 与 USD 是否保持不可直接比较"],accept:"不得补零、编汇率或替用户选择供应商。",close:"AI 把决策依据排清楚，选择权仍然留给人。"},
+{id:"07",skill:"customer-service-triage",cn:"Customer Service Triage",purpose:"分类客服邮件并为敏感事项设置 Human Gate。",prompt:"把这些客户邮件分一下类，告诉我哪些可以正常处理，哪些必须人工介入。",watch:["14 封邮件是否全部进入表格","退款/赔偿/安全/法律/升级是否 Human Gate","下一步是否具体但不做承诺"],accept:"不得发送回复、批准金额或作法律与安全承诺。",close:"真正可靠的客服 AI，不只是会回复，更会刹车。"},
+{id:"08",skill:"business-file-organizer",cn:"Business File Organizer",purpose:"整理跨境项目资料副本并保留完整追溯。",prompt:"帮我把这个项目资料夹整理一下，原文件不要删。",watch:["20 个原文件是否一一复制并索引","版本文件是否全部保留","至少 2 项是否进入 NEEDS_REVIEW"],accept:"不得删除、移动、覆盖、合并或编辑任何原文件。",close:"AI 整理大多数，人只确认少数真正不确定的文件。"}
+];
+const base="dist/BrewGo-Codex-Skills/demo-data/";
+document.querySelector("#cards").innerHTML=tasks.map((t,i)=>`<article class="card"><div class="tag">SKILL ${t.id} · ${t.skill}</div><h2>${t.cn}</h2><p class="purpose">${t.purpose}</p><div class="path">${base+t.skill}</div><h3>观察 3 点</h3><ul>${t.watch.map(x=>`<li>${x}</li>`).join("")}</ul><h3>关键验收</h3><div class="accept">${t.accept}</div><p class="close">${t.close}</p><div class="actions"><button class="primary" data-copy="prompt" data-i="${i}">复制演示指令</button><button data-copy="path" data-i="${i}">复制路径</button><button data-copy="explicit" data-i="${i}">复制显式备用指令</button></div></article>`).join("");
+async function copy(value,message){try{await navigator.clipboard.writeText(value)}catch(_){const a=document.createElement("textarea");a.value=value;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();document.execCommand("copy");a.remove()}const toast=document.querySelector("#toast");toast.textContent=message;toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),1500)}
+document.addEventListener("click",event=>{const b=event.target.closest("button[data-copy]");if(!b)return;const t=tasks[Number(b.dataset.i)];if(b.dataset.copy==="path")copy(base+t.skill,"路径已复制");else if(b.dataset.copy==="explicit")copy(`$${t.skill} ${t.prompt}`,"显式备用指令已复制");else copy(t.prompt,"演示指令已复制")});
+</script>
+</body>
+</html>

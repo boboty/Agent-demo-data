@@ -1,0 +1,4 @@
+interface:
+  display_name: "Customer Service Triage"
+  short_description: "Triage customer emails with human gates"
+  default_prompt: "Use $customer-service-triage to triage these customer emails and write the results to outputs/."

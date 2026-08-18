@@ -1,0 +1,4 @@
+interface:
+  display_name: "Business File Organizer"
+  short_description: "Organize business file copies with traceability"
+  default_prompt: "Use $business-file-organizer to organize this business folder without changing the originals."

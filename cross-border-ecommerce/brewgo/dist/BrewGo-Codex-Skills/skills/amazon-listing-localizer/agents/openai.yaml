@@ -1,0 +1,4 @@
+interface:
+  display_name: "Amazon Listing Localizer"
+  short_description: "Localize listings without changing facts"
+  default_prompt: "Use $amazon-listing-localizer to localize this listing for the requested market and write the results to outputs/."
