@@ -2,6 +2,7 @@
 """Build isolated Codex classroom workspaces from BrewGo public assets."""
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import shutil
@@ -16,6 +17,7 @@ STAGE_NAMES = (
     "03-project-context",
     "04-fba-profit-calculator",
     "05-search-term-skill",
+    "06-competitor-listing-optimization",
 )
 
 COMMON_INPUTS = (
@@ -49,6 +51,21 @@ SEARCH_TERM_INPUTS = (
     ),
 )
 
+COMPETITOR_INPUTS = tuple(
+    (
+        Path("classroom/06-competitor-listing-optimization/input/competitors") / filename,
+        Path("input/competitors") / filename,
+    )
+    for filename in (
+        "competitor_a_listing.md",
+        "competitor_a_reviews.csv",
+        "competitor_b_listing.md",
+        "competitor_b_reviews.csv",
+        "competitor_c_listing.md",
+        "competitor_c_reviews.csv",
+    )
+)
+
 STAGE_ASSETS = {
     "01-direct-task": (
         (Path("classroom/01-direct-task/task.md"), Path("task.md")),
@@ -76,6 +93,14 @@ STAGE_ASSETS = {
         *BUSINESS_SNAPSHOT,
         *SEARCH_TERM_INPUTS,
     ),
+    "06-competitor-listing-optimization": (
+        (Path("classroom/03-project-context/project-context.md"), Path("project-context.md")),
+        (Path("adapters/codex/AGENTS.md.template"), Path("AGENTS.md")),
+        (Path("classroom/06-competitor-listing-optimization/task.md"), Path("task.md")),
+        *BUSINESS_SNAPSHOT,
+        *COMMON_INPUTS,
+        *COMPETITOR_INPUTS,
+    ),
 }
 
 # Directories created empty (with a .gitkeep marker) in each stage's workspace.
@@ -85,6 +110,7 @@ STAGE_EMPTY_DIRS = {
     "03-project-context": ("outputs",),
     "04-fba-profit-calculator": ("outputs",),
     "05-search-term-skill": ("outputs/first-run", "outputs/second-run", ".agents/skills"),
+    "06-competitor-listing-optimization": ("outputs",),
 }
 
 
@@ -191,7 +217,16 @@ def replace_stage(stage: str, temporary_root: Path) -> None:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--stage",
+        action="append",
+        choices=STAGE_NAMES,
+        help="build only this approved stage; repeat for multiple stages (default: all)",
+    )
+    args = parser.parse_args()
     preflight()
+    selected_stages = tuple(args.stage) if args.stage else STAGE_NAMES
     version = (SOURCE_ROOT / "VERSION").read_text(encoding="utf-8").strip()
     if not version:
         raise SystemExit("VERSION must not be empty")
@@ -199,16 +234,16 @@ def main() -> None:
     WORKSPACES_ROOT.mkdir(parents=True, exist_ok=True)
     temporary_root = Path(tempfile.mkdtemp(prefix=".build-", dir=WORKSPACES_ROOT))
     try:
-        for stage in STAGE_NAMES:
+        for stage in selected_stages:
             build_stage(stage, temporary_root, version)
-        for stage in STAGE_NAMES:
+        for stage in selected_stages:
             replace_stage(stage, temporary_root)
     finally:
         if temporary_root.exists():
             shutil.rmtree(temporary_root)
 
     print(f"BrewGo classroom workspaces rebuilt; data_version={version}")
-    for stage in STAGE_NAMES:
+    for stage in selected_stages:
         stage_root = approved_target(stage)
         print(f"BUILT {stage}")
         for path in sorted(stage_root.rglob("*")):

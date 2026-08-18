@@ -1,0 +1,7 @@
+review_id,review_date,competitor_id,rating,title,review_text,verified_purchase,topic_hint,data_notice
+C-R01,2026-07-04,COMP-C,5,Convenient to brush out,"Removing the burr module makes it easier for me to reach loose grounds with a brush.",Y,cleaning,Fictional teaching data
+C-R02,2026-07-11,COMP-C,5,Looks premium,"The finish looks good enough to leave on my counter.",Y,finish,Fictional teaching data
+C-R03,2026-07-18,COMP-C,3,Case is larger than expected,"The fitted case is organized but takes more cabinet and luggage space than I expected.",Y,storage,Fictional teaching data
+C-R04,2026-07-25,COMP-C,3,Pricey details,"The caps and inserts are attractive, but I mainly use the grinder and could do without some of the extras.",Y,value,Fictional teaching data
+C-R05,2026-07-31,COMP-C,4,Mostly stays at home,"I like the setup on my counter, but I choose a smaller grinder when traveling.",N,portability,Fictional teaching data
+

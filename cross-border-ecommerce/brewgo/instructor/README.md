@@ -7,6 +7,8 @@
 - demo-03-runbook.md：长期项目上下文。
 - demo-04-runbook.md：FBA 利润测算器。
 - demo-05-runbook.md：Search Term 分析 Skill。
+- demo-06-runbook.md：竞品对比驱动的 Listing 优化。
+- demo-06-acceptance-checklist.md：Demo 06 的证据、判断和交付验收清单。
 - expected-observations.md：稳定观察、可能波动和讲解分支。
 
 课堂结果不要求模型按固定剧本犯错。教师应比较证据使用、风险边界、输出完整性和可复核性，而不是比较某一句文案是否完全一致。

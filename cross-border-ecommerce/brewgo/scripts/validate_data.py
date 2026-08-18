@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
+import json
 import re
 import sys
 import zipfile
@@ -32,6 +34,17 @@ CSV_HEADERS = {
 ROW_RANGES = {
     "products.xlsx": (15, 25), "search_terms.xlsx": (80, 150), "supplier_quotes.xlsx": (3, 5),
     "orders.xlsx": (100, 200), "reviews.csv": (60, 100), "customer_service.csv": (30, 50),
+}
+
+DEMO06_STAGE = "06-competitor-listing-optimization"
+DEMO06_COMPETITOR_FILES = tuple(
+    f"competitor_{letter}_{kind}.{extension}"
+    for letter in "abc"
+    for kind, extension in (("listing", "md"), ("reviews", "csv"))
+)
+DEMO06_REVIEW_HEADERS = {
+    "review_id", "review_date", "competitor_id", "rating", "title",
+    "review_text", "verified_purchase", "topic_hint", "data_notice",
 }
 
 
@@ -93,6 +106,91 @@ def csv_dicts(path: Path) -> list[dict[str, str]]:
 
 def number(value: str) -> float:
     return float(value) if value not in ("", None) else 0.0
+
+
+def file_sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def validate_demo06(project_root: Path) -> tuple[list[str], list[str]]:
+    errors: list[str] = []
+    warnings: list[str] = []
+    source_root = project_root / "classroom" / DEMO06_STAGE
+    competitor_root = source_root / "input" / "competitors"
+    for relative in ("README.md", "task.md"):
+        if not (source_root / relative).is_file():
+            errors.append(f"classroom/{DEMO06_STAGE}: missing {relative}")
+    for filename in DEMO06_COMPETITOR_FILES:
+        path = competitor_root / filename
+        if not path.is_file():
+            errors.append(f"classroom/{DEMO06_STAGE}: missing competitor file {filename}")
+            continue
+        if filename.endswith("_listing.md"):
+            text = path.read_text(encoding="utf-8")
+            if "FICTIONAL TEACHING DATA" not in text:
+                errors.append(f"{filename}: missing fictional teaching data notice")
+            if "seller claims" not in text:
+                errors.append(f"{filename}: missing seller-claim evidence notice")
+        else:
+            try:
+                rows = csv_dicts(path)
+            except Exception as exc:
+                errors.append(f"{filename}: cannot read ({exc})")
+                continue
+            fields = set(rows[0]) if rows else set()
+            absent = DEMO06_REVIEW_HEADERS - fields
+            if absent:
+                errors.append(f"{filename}: missing fields {', '.join(sorted(absent))}")
+            if len(rows) < 4:
+                errors.append(f"{filename}: requires at least 4 review rows")
+            for row_number, row in enumerate(rows, start=2):
+                if row.get("data_notice") != "Fictional teaching data":
+                    errors.append(f"{filename} row {row_number}: missing fictional teaching data notice")
+
+    workspace = project_root / "workspaces" / "codex" / DEMO06_STAGE
+    if not workspace.exists():
+        warnings.append(f"Demo 06 workspace not built: {workspace}")
+        return errors, warnings
+    manifest_path = workspace / "workspace-manifest.json"
+    if not manifest_path.is_file():
+        errors.append("Demo 06 workspace: missing workspace-manifest.json")
+        return errors, warnings
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    except Exception as exc:
+        errors.append(f"Demo 06 workspace: invalid manifest ({exc})")
+        return errors, warnings
+    if manifest.get("stage") != DEMO06_STAGE:
+        errors.append("Demo 06 workspace: manifest stage mismatch")
+    generated = manifest.get("generated_files", {})
+    required_generated = {
+        "AGENTS.md", "project-context.md", "task.md", "outputs/.gitkeep",
+        "input/listing_current.md", "input/product_profile_g2.md", "input/products.xlsx",
+        "input/reviews.csv",
+        *(f"input/competitors/{name}" for name in DEMO06_COMPETITOR_FILES),
+    }
+    missing_generated = required_generated - set(generated)
+    if missing_generated:
+        errors.append(f"Demo 06 workspace manifest: missing {', '.join(sorted(missing_generated))}")
+    for relative, expected_hash in generated.items():
+        path = workspace / relative
+        if not path.is_file():
+            errors.append(f"Demo 06 workspace: missing generated file {relative}")
+        elif file_sha256(path) != expected_hash:
+            errors.append(f"Demo 06 workspace: hash mismatch for {relative}")
+    for filename in DEMO06_COMPETITOR_FILES:
+        source = competitor_root / filename
+        copied = workspace / "input" / "competitors" / filename
+        if source.is_file() and copied.is_file() and source.read_bytes() != copied.read_bytes():
+            errors.append(f"Demo 06 workspace: competitor copy differs for {filename}")
+    business_outputs = [path for path in (workspace / "outputs").iterdir() if path.name != ".gitkeep"] if (workspace / "outputs").is_dir() else []
+    if business_outputs:
+        errors.append("Demo 06 workspace: outputs contains pre-generated business answers")
+    return errors, warnings
 
 
 def parse_date_range(value: str) -> tuple[date, date]:
@@ -218,6 +316,9 @@ def validate(project_root: Path, include_work: bool) -> tuple[list[str], list[st
     for row_number, row in enumerate(xlsx_rows["inventory.xlsx"], start=2):
         if row["risk_status"] == "Slow moving" and row["notes"].strip().lower() == "normal.":
             errors.append(f"inventory.xlsx row {row_number}: risk status conflicts with notes")
+    demo06_errors, demo06_warnings = validate_demo06(project_root)
+    errors.extend(demo06_errors)
+    warnings.extend(demo06_warnings)
     return errors, warnings
 
 
