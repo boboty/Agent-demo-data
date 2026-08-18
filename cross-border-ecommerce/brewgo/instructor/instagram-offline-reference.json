@@ -1,0 +1,142 @@
+{
+  "teaching_only": true,
+  "student_workspace_visible": false,
+  "plan_b_scope": {
+    "geography": "Los Angeles city",
+    "target_types": [
+      "Salon",
+      "Independent Stylist",
+      "Wig Store"
+    ],
+    "purpose": "lead development",
+    "evidence": "public profile snapshot only"
+  },
+  "profiles": [
+    {
+      "account": "velvetchair_la",
+      "expected_category": "Salon",
+      "expected_decision": "include",
+      "reason": "Los Angeles location and public wig fitting service match the Plan B scope.",
+      "manual_review_expected": false
+    },
+    {
+      "account": "laceandlight_studio",
+      "expected_category": "Salon",
+      "expected_decision": "include",
+      "reason": "Los Angeles location and public wig install and consultation services match.",
+      "manual_review_expected": false
+    },
+    {
+      "account": "mika_styles_wigs",
+      "expected_category": "Independent Stylist",
+      "expected_decision": "include",
+      "reason": "Independent wig stylist in Los Angeles with a public booking route.",
+      "manual_review_expected": false
+    },
+    {
+      "account": "crownroom_wigs",
+      "expected_category": "Wig Store",
+      "expected_decision": "include",
+      "reason": "Los Angeles retail wig showroom and fittings match the target types.",
+      "manual_review_expected": false
+    },
+    {
+      "account": "westbeauty_supply",
+      "expected_category": "Beauty Supply",
+      "expected_decision": "exclude",
+      "reason": "Wigs are only one category of a general beauty supply store.",
+      "manual_review_expected": false
+    },
+    {
+      "account": "aurahair_global",
+      "expected_category": "Brand / E-commerce",
+      "expected_decision": "exclude",
+      "reason": "Online brand with no local service or Los Angeles location stated.",
+      "manual_review_expected": false
+    },
+    {
+      "account": "nia_loves_color",
+      "expected_category": "Consumer / Irrelevant",
+      "expected_decision": "exclude",
+      "reason": "Public bio describes a personal lifestyle account, not a business.",
+      "manual_review_expected": false
+    },
+    {
+      "account": "brooklyn_lace_lab",
+      "expected_category": "Salon",
+      "expected_decision": "exclude",
+      "reason": "Salon type matches but the stated Brooklyn location is outside Plan B geography.",
+      "manual_review_expected": false
+    },
+    {
+      "account": "styledby_rin",
+      "expected_category": "Independent Stylist",
+      "expected_decision": "manual_review",
+      "reason": "Service type appears relevant but public location is missing.",
+      "manual_review_expected": true
+    },
+    {
+      "account": "longbeach_crownbar",
+      "expected_category": "Salon",
+      "expected_decision": "manual_review",
+      "reason": "Relevant salon in Long Beach; confirm whether the live geography includes greater LA.",
+      "manual_review_expected": true
+    },
+    {
+      "account": "fadegarage_la",
+      "expected_category": "Consumer / Irrelevant",
+      "expected_decision": "exclude",
+      "reason": "Public services are barbering only; no wig service is stated.",
+      "manual_review_expected": false
+    },
+    {
+      "account": "private_glam_notes",
+      "expected_category": "Uncertain",
+      "expected_decision": "manual_review",
+      "reason": "Private account has no public business evidence and must not be accessed further.",
+      "manual_review_expected": true
+    },
+    {
+      "account": "thehairarchive",
+      "expected_category": "Uncertain",
+      "expected_decision": "manual_review",
+      "reason": "Inspiration archive with no stated business type or location.",
+      "manual_review_expected": true
+    },
+    {
+      "account": "pasadena_wig_atelier",
+      "expected_category": "Salon",
+      "expected_decision": "manual_review",
+      "reason": "Relevant salon in Pasadena; confirm whether the live geography includes greater LA.",
+      "manual_review_expected": true
+    },
+    {
+      "account": "sunset_lace_co",
+      "expected_category": "Brand / E-commerce",
+      "expected_decision": "exclude",
+      "reason": "Public evidence supports an online brand, not a salon or service provider.",
+      "manual_review_expected": false
+    },
+    {
+      "account": "beautyclass_mara",
+      "expected_category": "Uncertain",
+      "expected_decision": "manual_review",
+      "reason": "Education is visible but client services are not stated.",
+      "manual_review_expected": true
+    },
+    {
+      "account": "wigcart_online",
+      "expected_category": "Brand / E-commerce",
+      "expected_decision": "exclude",
+      "reason": "Online-only shop with no stated local salon service or location.",
+      "manual_review_expected": false
+    },
+    {
+      "account": "oldtown_wig_room",
+      "expected_category": "Salon",
+      "expected_decision": "manual_review",
+      "reason": "Category and location match, but 19 months of inactivity needs manual review.",
+      "manual_review_expected": true
+    }
+  ]
+}

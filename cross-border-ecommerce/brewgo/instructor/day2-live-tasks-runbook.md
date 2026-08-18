@@ -10,7 +10,7 @@
 
 【现场先问什么】
 
-站点、关键词、Top10 口径、Sponsored 处理、字段、重复 / 变体规则、缺失值规则、采集截止时间。先在白板上分开写：搜索位置、Sponsored、Organic、BSR。
+站点、关键词、Top10 口径、Sponsored 处理、字段、重复 / 变体规则、缺失值规则、采集截止时间。先在白板上分开写：搜索位置、Sponsored、Organic、BSR。BSR 必须连同具体类目记录；不同类目的 BSR 不得直接横向比较或合并排序；BSR 也不得解释为销量件数。
 
 【最终任务定义】
 
@@ -30,11 +30,11 @@ Agent 是否主动暴露“畅销”的歧义；Sponsored 与 Organic 是否分�
 
 【容易翻车的位置】
 
-把搜索前 10 写成销量前 10；为了填 BSR 乱猜；重复 ASIN 占多个位置；广告标记丢失；列表页和详情页时间截面混淆；把不可见字段从第三方摘要补成事实。
+把搜索前 10 写成销量前 10；为了填 BSR 乱猜；跨类目比较 BSR；重复 ASIN 占多个位置；广告标记丢失；列表页和详情页时间截面混淆；把不可见字段从第三方摘要补成事实。
 
 【Live 失败时如何切 Offline】
 
-说清失败类型与切换时间，不改变任务口径，只把来源切到 `input/offline/`。先打开教学搜索页，再按需要打开详情页；结果必须标注 `FICTIONAL / TEACHING SNAPSHOT`，不能作当前市场结论。
+第一次任务说清失败类型与切换时间，不改变任务口径，只把来源切到 `input/offline/`。先打开教学搜索页，再按需要打开详情页；即使现场排除 Sponsored，去重 Organic 仍能形成 Top10。结果必须标注 `FICTIONAL / TEACHING SNAPSHOT`，不能作当前市场结论。
 
 【一句收口】
 
@@ -46,15 +46,17 @@ Agent 是否主动暴露“畅销”的歧义；Sponsored 与 Organic 是否分�
 
 【如何进入 Skill Lab】
 
-先验收第一次输出，再要求现场从成功执行中抽取 Trigger、Inputs、Scope、Discovery、广告处理、去重、证据、缺失数据、输出契约、人工复核和自检。学员自己创建 / 修改 Skill；不要展示讲师 Plan B，除非现场卡住。
+先验收第一次输出，再要求现场从成功执行中抽取 Trigger、Inputs、Scope、Discovery、广告处理、去重、证据、缺失数据、输出契约、人工复核和自检。学员自己把 Skill 创建到 `.agents/skills/amazon-competitor-discovery/SKILL.md`；创建前该路径必须不存在，创建后必须显式检查路径正确。不要展示讲师 Plan B，除非现场卡住。
 
 【第二关键词怎么选】
 
-从 `electric milk frother`、`portable blender`、`travel coffee mug` 中让现场选一个；不要使用第一次关键词，不要沿用第一次会话。选择应独立于第一次商品集合，又能观察广告、去重与字段一致性。
+从 `electric milk frother`、`portable blender`、`travel coffee mug` 中让现场选一个进行 Live；不要使用第一次关键词，不要沿用第一次会话，也不要粘贴第一次答案，只提供新关键词 / 新业务输入。选择应独立于第一次商品集合，又能观察广告、去重与字段一致性。
+
+若第二次 Live 失败，明确告诉学员：“为了保留‘换任务复用 Skill’这个实验，只把数据源切换成 electric milk frother 教学快照。”然后使用 `input/offline-second-run/` 继续复用实验。该目录只替换数据源，不替换 Skill，也不能把第二次商品结果写入 Skill。
 
 【Skill 验收重点】
 
-是否仍遵守现场确认的 Top10 定义；Sponsored、去重、字段、缺失值和来源规则是否稳定；是否擅自扩大搜索范围；Skill 是否混入第一次关键词、ASIN、价格或答案。失败时先修 Skill，再新开会话复验。
+Skill 是否确实位于 `.agents/skills/amazon-competitor-discovery/SKILL.md` 并被新会话发现；是否仍遵守现场确认的 Top10 定义；Sponsored、去重、字段、缺失值和来源规则是否稳定；是否擅自扩大搜索范围；是否混入第一次或第二次商品 ID、品牌、价格或答案；BSR 是否带类目且未跨类目排序。失败时先修 Skill，再新开会话复验。
 
 ## 02｜Instagram Lead Discovery
 
@@ -139,4 +141,3 @@ AI 做图并不难，难的是它知不知道这张图想回答什么问题。
 【如何进入下一段课程】
 
 用“可追溯指标 + 暴露限制 + 人工验证”回扣三个任务的共同验收逻辑，再进入后续课程。
-

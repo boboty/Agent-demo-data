@@ -2,6 +2,7 @@
 """Generate deterministic fictional fixtures for BrewGo Day2 Live Tasks."""
 from __future__ import annotations
 
+import argparse
 import html
 import json
 import random
@@ -16,7 +17,9 @@ from openpyxl.worksheet.table import Table, TableStyleInfo
 ROOT = Path(__file__).resolve().parents[1]
 DAY2_ROOT = ROOT / "classroom" / "day2-live-tasks"
 AMAZON_ROOT = DAY2_ROOT / "01-amazon-competitor-discovery" / "input" / "offline"
+AMAZON_SECOND_ROOT = DAY2_ROOT / "01-amazon-competitor-discovery" / "input" / "offline-second-run"
 INSTAGRAM_ROOT = DAY2_ROOT / "02-instagram-lead-discovery" / "input" / "offline"
+INSTAGRAM_REFERENCE = ROOT / "instructor" / "instagram-offline-reference.json"
 DATA_PATH = DAY2_ROOT / "03-data-analysis-dashboard" / "input" / "business-performance.xlsx"
 REFERENCE_DASHBOARD = ROOT / "instructor" / "day2-data-dashboard-reference.html"
 REFERENCE_METRICS = ROOT / "instructor" / "day2-data-dashboard-reference-metrics.json"
@@ -50,33 +53,67 @@ AMAZON_PRODUCTS = [
     {"asin":"TCH-J010","brand":"HearthRoute","title":"Classic Wooden Coffee Mill with Drawer","price":"$32.00","rating":"4.1","reviews":"3,090","bsr":"","note":"Different use context; BSR not visible"},
     {"asin":"TCH-K011","brand":"PressMate","title":"Hand Grinder for French Press and Cold Brew","price":"$41.75","rating":"4.4","reviews":"706","bsr":"#56 in Manual Coffee Grinders","note":"BSR visible in teaching detail snapshot"},
     {"asin":"TCH-L012","brand":"AeroBean","title":"Lightweight Manual Coffee Grinder, Removable Crank","price":"$47.20","rating":"4.3","reviews":"1,830","bsr":"","note":"BSR not visible"},
+    {"asin":"TCH-M013","brand":"StoneKite","title":"Steel Burr Hand Grinder with Numbered Dial","price":"$63.40","rating":"4.4","reviews":"529","bsr":"#73 in Manual Coffee Grinders","note":"BSR visible in teaching detail snapshot"},
+    {"asin":"TCH-N014","brand":"QuietTrail","title":"Portable Manual Grinder with Dual Jar Set","price":"$54.80","rating":"4.2","reviews":"264","bsr":"","note":"BSR not visible"},
+    {"asin":"TCH-O015","brand":"BrewParcel","title":"Compact Conical Burr Grinder for Office Coffee","price":"$38.60","rating":"4.0","reviews":"1,008","bsr":"","note":"BSR not visible"},
 ]
 
 SEARCH_ITEMS = [
     (1,"Sponsored","TCH-A001"),(2,"Organic","TCH-B002"),(3,"Sponsored","TCH-C003"),(4,"Organic","TCH-D004"),
     (5,"Organic","TCH-B002"),(6,"Organic","TCH-E005"),(7,"Sponsored","TCH-F006"),(8,"Organic","TCH-G007"),
-    (9,"Organic","TCH-H008"),(10,"Organic","TCH-I009"),(11,"Organic","TCH-J010"),(12,"Sponsored","TCH-K011"),
-    (13,"Organic","TCH-L012"),(14,"Organic","TCH-D004"),(15,"Unknown",""),
+    (9,"Organic","TCH-H008"),(10,"Organic","TCH-I009"),(11,"Organic","TCH-J010"),(12,"Organic","TCH-K011"),
+    (13,"Organic","TCH-L012"),(14,"Organic","TCH-D004"),(15,"Organic","TCH-M013"),(16,"Organic","TCH-N014"),
+    (17,"Organic","TCH-O015"),(18,"Unknown",""),
 ]
 
 
-def generate_amazon() -> None:
-    products_dir = AMAZON_ROOT / "products"
+SECOND_RUN_PRODUCTS = [
+    {"asin":"MLK-A001","brand":"FoamPilot","title":"Automatic Milk Frother with Warm and Cold Modes","price":"$19.49","rating":"4.3","reviews":"3,210","bsr":"#24 in Electric Milk Frothers","note":"BSR visible in teaching detail snapshot"},
+    {"asin":"MLK-B002","brand":"LumaWhisk","title":"Electric Handheld Milk Frother with Stand","price":"$22.80","rating":"4.5","reviews":"6,404","bsr":"#11 in Handheld Milk Frothers","note":"Different BSR category; do not compare across categories"},
+    {"asin":"MLK-C003","brand":"CremaLoop","title":"Rechargeable Milk Frother Wand, Three Speeds","price":"$34.25","rating":"4.4","reviews":"1,925","bsr":"","note":"BSR not visible"},
+    {"asin":"MLK-D004","brand":"MeltMorning","title":"Countertop Hot Chocolate and Milk Frother","price":"$16.79","rating":"4.1","reviews":"788","bsr":"#67 in Electric Milk Frothers","note":"BSR visible in teaching detail snapshot"},
+    {"asin":"MLK-E005","brand":"SilkSpin","title":"Compact Electric Frother for Latte and Cappuccino","price":"$27.30","rating":"4.6","reviews":"2,116","bsr":"#39 in Electric Milk Frothers","note":"BSR visible in teaching detail snapshot"},
+    {"asin":"MLK-F006","brand":"CloudSip","title":"Cordless Milk Frother with Stainless Whisk","price":"$39.40","rating":"4.2","reviews":"950","bsr":"","note":"BSR not visible"},
+    {"asin":"MLK-G007","brand":"CafeCurrent","title":"USB-C Rechargeable Frother with Two Whisks","price":"$18.60","rating":"4.0","reviews":"4,087","bsr":"#52 in Handheld Milk Frothers","note":"Different BSR category; do not compare across categories"},
+    {"asin":"MLK-H008","brand":"VelvetFoam","title":"Electric Milk Frother and Steamer for Home Coffee","price":"","rating":"4.4","reviews":"612","bsr":"","note":"Price and BSR not visible"},
+    {"asin":"MLK-I009","brand":"WhiskHarbor","title":"Mini Battery Frother with Storage Case","price":"$24.15","rating":"4.2","reviews":"1,530","bsr":"","note":"Different power format; BSR not visible"},
+    {"asin":"MLK-J010","brand":"NookLatte","title":"Four-Mode Automatic Milk Frother Jug","price":"$31.90","rating":"4.7","reviews":"2,740","bsr":"#16 in Electric Milk Frothers","note":"BSR visible in teaching detail snapshot"},
+    {"asin":"MLK-K011","brand":"MorningMesh","title":"Portable Electric Foam Maker with Stand","price":"$14.85","rating":"","reviews":"","bsr":"","note":"Rating, reviews and BSR not visible"},
+    {"asin":"MLK-L012","brand":"SteamPetal","title":"Detachable-Cup Milk Frother for Warm Foam","price":"$29.65","rating":"4.3","reviews":"845","bsr":"#81 in Electric Milk Frothers","note":"BSR visible in teaching detail snapshot"},
+    {"asin":"MLK-M013","brand":"RippleCraft","title":"Large-Capacity Milk Frother with Cold Foam Mode","price":"$42.10","rating":"4.5","reviews":"1,107","bsr":"","note":"BSR not visible"},
+]
+
+SECOND_RUN_SEARCH_ITEMS = [
+    (1,"Sponsored","MLK-A001"),(2,"Organic","MLK-B002"),(3,"Organic","MLK-C003"),(4,"Sponsored","MLK-D004"),
+    (5,"Organic","MLK-E005"),(6,"Organic","MLK-F006"),(7,"Organic","MLK-G007"),(8,"Organic","MLK-H008"),
+    (9,"Sponsored","MLK-I009"),(10,"Organic","MLK-J010"),(11,"Organic","MLK-K011"),(12,"Organic","MLK-L012"),
+    (13,"Organic","MLK-M013"),(14,"Organic","MLK-C003"),(15,"Unknown",""),
+]
+
+
+def generate_amazon_snapshot(root: Path, keyword: str, products: list[dict[str, str]], search_items: list[tuple[int, str, str]], captured: str) -> None:
+    products_dir = root / "products"
     products_dir.mkdir(parents=True, exist_ok=True)
-    by_asin = {item["asin"]: item for item in AMAZON_PRODUCTS}
+    by_asin = {item["asin"]: item for item in products}
     cards = []
-    for position, placement, asin in SEARCH_ITEMS:
+    for position, placement, asin in search_items:
         if not asin:
-            cards.append(f'<article class="card"><span class="tag unknown">{placement}</span><h2>Position {position}: image-only result card</h2><p>ASIN and product fields are not visible in this teaching card.</p><p class="meta">Source: this local snapshot only</p></article>')
+            cards.append(f'<article class="card" data-position="{position}" data-placement="Unknown" data-asin="" data-missing="true"><span class="tag unknown">{placement}</span><h2>Position {position}: image-only result card</h2><p>ASIN and product fields are not visible in this teaching card.</p><p class="meta">Source: this local snapshot only</p></article>')
             continue
         item = by_asin[asin]
         tag_class = "sponsored" if placement == "Sponsored" else ""
-        cards.append(f'''<article class="card" data-position="{position}" data-placement="{placement}" data-asin="{asin}"><span class="tag {tag_class}">{placement}</span><h2>Position {position}: {html.escape(item["title"])}</h2><p><strong>{html.escape(item["brand"])}</strong> · ASIN {asin}</p><p>Price: {item["price"] or "not visible"} · Rating: {item["rating"] or "not visible"} · Reviews: {item["reviews"] or "not visible"}</p><a href="products/{asin.lower()}.html">Open teaching detail snapshot</a></article>''')
-    body = f'''<h1>Teaching search snapshot: portable coffee grinder</h1><p class="meta">Site scenario: Amazon US · Captured for teaching: 2026-08-15 10:30 PDT · 15 visible result cards</p><p class="warning">This layout is fictional. Search position, Sponsored placement and visible BSR are separate signals. The page does not claim sales volume.</p><section class="grid">{"".join(cards)}</section>'''
-    (AMAZON_ROOT / "amazon-search-results.html").write_text(page("Amazon teaching search snapshot", body), encoding="utf-8")
-    for item in AMAZON_PRODUCTS:
-        detail = f'''<h1>{html.escape(item["title"])}</h1><p class="meta">Simplified product detail snapshot · ASIN {item["asin"]}</p><dl><dt>Brand</dt><dd>{html.escape(item["brand"])}</dd><dt>ASIN</dt><dd>{item["asin"]}</dd><dt>Price</dt><dd>{item["price"] or "not visible"}</dd><dt>Rating</dt><dd>{item["rating"] or "not visible"}</dd><dt>Review count</dt><dd>{item["reviews"] or "not visible"}</dd><dt>Visible BSR</dt><dd>{html.escape(item["bsr"] or "not visible")}</dd><dt>Evidence note</dt><dd>{html.escape(item["note"])}</dd></dl><p class="warning">Use only fields visible here. Do not infer missing values or treat BSR as unit sales.</p><p><a href="../amazon-search-results.html">Back to teaching search snapshot</a></p>'''
+        missing = any(not item[field] for field in ("price", "rating", "reviews"))
+        cards.append(f'''<article class="card" data-position="{position}" data-placement="{placement}" data-asin="{asin}" data-brand="{html.escape(item["brand"])}" data-price="{item["price"]}" data-missing="{str(missing).lower()}"><span class="tag {tag_class}">{placement}</span><h2>Position {position}: {html.escape(item["title"])}</h2><p><strong>{html.escape(item["brand"])}</strong> · ASIN {asin}</p><p>Price: {item["price"] or "not visible"} · Rating: {item["rating"] or "not visible"} · Reviews: {item["reviews"] or "not visible"}</p><a href="products/{asin.lower()}.html">Open teaching detail snapshot</a></article>''')
+    body = f'''<h1>Teaching search snapshot: {html.escape(keyword)}</h1><p class="meta">Site scenario: Amazon US · Captured for teaching: {captured} · {len(search_items)} visible result cards</p><p class="warning">This layout is fictional. Search position, Sponsored placement and visible BSR are separate signals. BSR must retain its category; different categories cannot be compared or merged into one ranking, and BSR is not unit sales.</p><section class="grid">{"".join(cards)}</section>'''
+    (root / "amazon-search-results.html").write_text(page(f"Amazon teaching search snapshot: {keyword}", body), encoding="utf-8")
+    for item in products:
+        detail = f'''<h1>{html.escape(item["title"])}</h1><p class="meta">Simplified product detail snapshot · ASIN {item["asin"]}</p><dl><dt>Brand</dt><dd>{html.escape(item["brand"])}</dd><dt>ASIN</dt><dd>{item["asin"]}</dd><dt>Price</dt><dd>{item["price"] or "not visible"}</dd><dt>Rating</dt><dd>{item["rating"] or "not visible"}</dd><dt>Review count</dt><dd>{item["reviews"] or "not visible"}</dd><dt>Visible BSR</dt><dd>{html.escape(item["bsr"] or "not visible")}</dd><dt>Evidence note</dt><dd>{html.escape(item["note"])}</dd></dl><p class="warning">Use only fields visible here. BSR must retain its category; never compare BSR across categories or treat it as unit sales.</p><p><a href="../amazon-search-results.html">Back to teaching search snapshot</a></p>'''
         (products_dir / f'{item["asin"].lower()}.html').write_text(page(f'{item["asin"]} teaching detail', detail), encoding="utf-8")
+
+
+def generate_amazon() -> None:
+    generate_amazon_snapshot(AMAZON_ROOT, "portable coffee grinder", AMAZON_PRODUCTS, SEARCH_ITEMS, "2026-08-15 10:30 PDT")
+    generate_amazon_snapshot(AMAZON_SECOND_ROOT, "electric milk frother", SECOND_RUN_PRODUCTS, SECOND_RUN_SEARCH_ITEMS, "2026-08-15 11:45 PDT")
 
 
 INSTAGRAM_PROFILES = [
@@ -100,18 +137,60 @@ INSTAGRAM_PROFILES = [
     ("oldtown_wig_room","Old Town Wig Room","Los Angeles, CA","Salon","Bio says wig salon; public activity appears inactive.","","1,120","Last visible post 19 months ago"),
 ]
 
+INSTAGRAM_EXPECTED = {
+    "velvetchair_la": ("Salon", "include", "Los Angeles location and public wig fitting service match the Plan B scope.", False),
+    "laceandlight_studio": ("Salon", "include", "Los Angeles location and public wig install and consultation services match.", False),
+    "mika_styles_wigs": ("Independent Stylist", "include", "Independent wig stylist in Los Angeles with a public booking route.", False),
+    "crownroom_wigs": ("Wig Store", "include", "Los Angeles retail wig showroom and fittings match the target types.", False),
+    "westbeauty_supply": ("Beauty Supply", "exclude", "Wigs are only one category of a general beauty supply store.", False),
+    "aurahair_global": ("Brand / E-commerce", "exclude", "Online brand with no local service or Los Angeles location stated.", False),
+    "nia_loves_color": ("Consumer / Irrelevant", "exclude", "Public bio describes a personal lifestyle account, not a business.", False),
+    "brooklyn_lace_lab": ("Salon", "exclude", "Salon type matches but the stated Brooklyn location is outside Plan B geography.", False),
+    "styledby_rin": ("Independent Stylist", "manual_review", "Service type appears relevant but public location is missing.", True),
+    "longbeach_crownbar": ("Salon", "manual_review", "Relevant salon in Long Beach; confirm whether the live geography includes greater LA.", True),
+    "fadegarage_la": ("Consumer / Irrelevant", "exclude", "Public services are barbering only; no wig service is stated.", False),
+    "private_glam_notes": ("Uncertain", "manual_review", "Private account has no public business evidence and must not be accessed further.", True),
+    "thehairarchive": ("Uncertain", "manual_review", "Inspiration archive with no stated business type or location.", True),
+    "pasadena_wig_atelier": ("Salon", "manual_review", "Relevant salon in Pasadena; confirm whether the live geography includes greater LA.", True),
+    "sunset_lace_co": ("Brand / E-commerce", "exclude", "Public evidence supports an online brand, not a salon or service provider.", False),
+    "beautyclass_mara": ("Uncertain", "manual_review", "Education is visible but client services are not stated.", True),
+    "wigcart_online": ("Brand / E-commerce", "exclude", "Online-only shop with no stated local salon service or location.", False),
+    "oldtown_wig_room": ("Salon", "manual_review", "Category and location match, but 19 months of inactivity needs manual review.", True),
+}
+
 
 def generate_instagram() -> None:
     profiles_dir = INSTAGRAM_ROOT / "profiles"
     profiles_dir.mkdir(parents=True, exist_ok=True)
     cards = []
-    for account, display, location, category, bio, contact, followers, activity in INSTAGRAM_PROFILES:
+    for account, display, location, _category, bio, contact, followers, activity in INSTAGRAM_PROFILES:
         cards.append(f'''<article class="card"><span class="tag">Candidate</span><h2>@{account}</h2><p>{html.escape(display)}</p><p>{html.escape(bio)}</p><a href="profiles/{account}.html">Open teaching Profile</a></article>''')
         profile_url = f"https://instagram.example/{account}"
-        detail = f'''<h1>@{account}</h1><p class="meta">Fictional public-profile teaching snapshot</p><dl><dt>Display name</dt><dd>{html.escape(display)}</dd><dt>Profile URL</dt><dd>{profile_url}</dd><dt>Location shown</dt><dd>{html.escape(location or "not stated")}</dd><dt>Profile label</dt><dd>{html.escape(category)}</dd><dt>Public bio</dt><dd>{html.escape(bio)}</dd><dt>Website / public contact</dt><dd>{html.escape(contact or "not visible")}</dd><dt>Follower count shown</dt><dd>{html.escape(followers or "not visible")}</dd><dt>Activity signal</dt><dd>{html.escape(activity)}</dd></dl><p class="warning">The label is a teaching hint, not an approved lead decision. Apply the live scope and record why the account is included, rejected or sent to manual review.</p><p><a href="../search-results.html">Back to teaching search results</a></p>'''
+        detail = f'''<h1>@{account}</h1><p class="meta">Fictional public-profile teaching snapshot</p><dl><dt>Display name</dt><dd>{html.escape(display)}</dd><dt>Profile URL</dt><dd>{profile_url}</dd><dt>Location shown</dt><dd>{html.escape(location or "not stated")}</dd><dt>Public bio</dt><dd>{html.escape(bio)}</dd><dt>Website / public contact</dt><dd>{html.escape(contact or "not visible")}</dd><dt>Follower count shown</dt><dd>{html.escape(followers or "not visible")}</dd><dt>Activity signal</dt><dd>{html.escape(activity)}</dd></dl><p class="warning">Classify this candidate only from the public evidence above and the live scope. Record why it is included, rejected or sent to manual review.</p><p><a href="../search-results.html">Back to teaching search results</a></p>'''
         (profiles_dir / f"{account}.html").write_text(page(f"@{account} teaching Profile", detail), encoding="utf-8")
     body = f'''<h1>Teaching search snapshot: wig salon accounts</h1><p class="meta">Location is intentionally mixed or missing · 18 fictional candidates</p><p class="warning">Search results are candidates, not a Lead List. Apply the confirmed geography, target type, exclusions and manual-review rules.</p><section class="grid">{"".join(cards)}</section>'''
     (INSTAGRAM_ROOT / "search-results.html").write_text(page("Instagram teaching search snapshot", body), encoding="utf-8")
+    reference = {
+        "teaching_only": True,
+        "student_workspace_visible": False,
+        "plan_b_scope": {
+            "geography": "Los Angeles city",
+            "target_types": ["Salon", "Independent Stylist", "Wig Store"],
+            "purpose": "lead development",
+            "evidence": "public profile snapshot only",
+        },
+        "profiles": [
+            {
+                "account": account,
+                "expected_category": INSTAGRAM_EXPECTED[account][0],
+                "expected_decision": INSTAGRAM_EXPECTED[account][1],
+                "reason": INSTAGRAM_EXPECTED[account][2],
+                "manual_review_expected": INSTAGRAM_EXPECTED[account][3],
+            }
+            for account, *_rest in INSTAGRAM_PROFILES
+        ],
+    }
+    INSTAGRAM_REFERENCE.write_text(json.dumps(reference, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
 def generate_rows() -> list[dict[str, object]]:
@@ -304,19 +383,30 @@ def verify_workbook() -> None:
 
 
 def main() -> None:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--only",
+        choices=("all", "marketplace"),
+        default="all",
+        help="generate all fixtures or only Amazon/Instagram fixtures",
+    )
+    args = parser.parse_args()
     if DAY2_ROOT.resolve().parent != (ROOT / "classroom").resolve():
         raise SystemExit(f"Unsafe Day2 fixture root: {DAY2_ROOT}")
     generate_amazon()
     generate_instagram()
-    rows = generate_rows()
-    generate_workbook(rows)
-    verify_workbook()
-    metrics = aggregate(clean_rows(rows))
-    generate_reference_dashboard(metrics)
-    print(f"Generated Amazon snapshots: search + {len(AMAZON_PRODUCTS)} product details")
+    print(f"Generated Amazon first-run snapshots: search + {len(AMAZON_PRODUCTS)} product details")
+    print(f"Generated Amazon second-run snapshots: search + {len(SECOND_RUN_PRODUCTS)} product details")
     print(f"Generated Instagram snapshots: search + {len(INSTAGRAM_PROFILES)} profiles")
-    print(f"Generated data workbook: {len(rows)} rows, 15 columns")
-    print(f"Generated offline instructor dashboard: {REFERENCE_DASHBOARD.relative_to(ROOT)}")
+    print(f"Generated Instagram instructor reference: {INSTAGRAM_REFERENCE.relative_to(ROOT)}")
+    if args.only == "all":
+        rows = generate_rows()
+        generate_workbook(rows)
+        verify_workbook()
+        metrics = aggregate(clean_rows(rows))
+        generate_reference_dashboard(metrics)
+        print(f"Generated data workbook: {len(rows)} rows, 15 columns")
+        print(f"Generated offline instructor dashboard: {REFERENCE_DASHBOARD.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":

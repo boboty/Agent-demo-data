@@ -13,6 +13,7 @@ SOURCE_ROOT = Path(__file__).resolve().parents[1]
 CLASSROOM_ROOT = SOURCE_ROOT / "classroom" / "day2-live-tasks"
 WORKSPACES_ROOT = SOURCE_ROOT / "workspaces" / "codex"
 TARGET_ROOT = WORKSPACES_ROOT / "day2-live-tasks"
+PROTECTION_RECEIPT = TARGET_ROOT / "protected-assets-manifest.json"
 TASKS = (
     "01-amazon-competitor-discovery",
     "02-instagram-lead-discovery",
@@ -60,6 +61,42 @@ def protected_demo_snapshot() -> dict[str, str]:
     return protected
 
 
+def snapshot_paths(paths: tuple[Path, ...]) -> dict[str, str]:
+    protected: dict[str, str] = {}
+    for root in paths:
+        if root.is_file():
+            protected[root.relative_to(SOURCE_ROOT).as_posix()] = sha256(root)
+        elif root.is_dir():
+            for path in sorted(root.rglob("*")):
+                if path.is_file():
+                    protected[path.relative_to(SOURCE_ROOT).as_posix()] = sha256(path)
+    return protected
+
+
+def protected_asset_snapshots() -> dict[str, dict[str, str]]:
+    return {
+        "Demo01-07": protected_demo_snapshot(),
+        "Quick Wins": snapshot_paths((
+            SOURCE_ROOT / "classroom" / "quick-wins",
+            WORKSPACES_ROOT / "quick-wins",
+            SOURCE_ROOT / "instructor" / "quick-wins-control.html",
+            SOURCE_ROOT / "instructor" / "quick-wins-runbook.md",
+            SOURCE_ROOT / "scripts" / "build_quick_wins.py",
+        )),
+        "Data Analysis": snapshot_paths((
+            CLASSROOM_ROOT / TASKS[2],
+            TARGET_ROOT / TASKS[2],
+            SOURCE_ROOT / "instructor" / "day2-data-dashboard-reference.html",
+            SOURCE_ROOT / "instructor" / "day2-data-dashboard-reference-metrics.json",
+        )),
+    }
+
+
+def snapshot_digest(files: dict[str, str]) -> str:
+    payload = json.dumps(files, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
 def xlsx_contains_label(path: Path) -> bool:
     try:
         with zipfile.ZipFile(path) as archive:
@@ -103,15 +140,19 @@ def preflight() -> None:
             raise SystemExit(f"Task input must contain files: {input_root}")
         assert_empty_output(task_root / "outputs")
 
-    amazon = CLASSROOM_ROOT / TASKS[0] / "input" / "offline"
-    amazon_html = sorted(amazon.rglob("*.html"))
-    if len(amazon_html) != 13:
-        raise SystemExit(f"Amazon Offline must contain 13 HTML snapshots, found {len(amazon_html)}")
+    amazon_first = CLASSROOM_ROOT / TASKS[0] / "input" / "offline"
+    amazon_first_html = sorted(amazon_first.rglob("*.html"))
+    if len(amazon_first_html) != 16:
+        raise SystemExit(f"Amazon first-run Offline must contain 16 HTML snapshots, found {len(amazon_first_html)}")
+    amazon_second = CLASSROOM_ROOT / TASKS[0] / "input" / "offline-second-run"
+    amazon_second_html = sorted(amazon_second.rglob("*.html"))
+    if len(amazon_second_html) != 14:
+        raise SystemExit(f"Amazon second-run Offline must contain 14 HTML snapshots, found {len(amazon_second_html)}")
     instagram = CLASSROOM_ROOT / TASKS[1] / "input" / "offline"
     instagram_html = sorted(instagram.rglob("*.html"))
     if len(instagram_html) != 19:
         raise SystemExit(f"Instagram Offline must contain 19 HTML snapshots, found {len(instagram_html)}")
-    for path in (*amazon_html, *instagram_html):
+    for path in (*amazon_first_html, *amazon_second_html, *instagram_html):
         if TEACHING_LABELS[0] not in path.read_bytes():
             raise SystemExit(f"Teaching snapshot label missing: {path}")
     workbook = CLASSROOM_ROOT / TASKS[2] / "input" / "business-performance.xlsx"
@@ -185,7 +226,7 @@ def verify_generated() -> None:
 def main() -> None:
     preflight()
     source_before = snapshot(CLASSROOM_ROOT)
-    demos_before = protected_demo_snapshot()
+    protected_before = protected_asset_snapshots()
     version = (SOURCE_ROOT / "VERSION").read_text(encoding="utf-8").strip()
     if not version:
         raise SystemExit("VERSION must not be empty")
@@ -205,14 +246,29 @@ def main() -> None:
             shutil.rmtree(temporary_parent)
 
     verify_generated()
-    if protected_demo_snapshot() != demos_before:
-        raise SystemExit("Protected Demo01–07 assets changed during Day2 build")
+    protected_after = protected_asset_snapshots()
+    if protected_after != protected_before:
+        changed = [name for name in protected_before if protected_after.get(name) != protected_before[name]]
+        raise SystemExit(f"Protected assets changed during Day2 build: {', '.join(changed)}")
+    PROTECTION_RECEIPT.write_text(
+        json.dumps(
+            {
+                name: {"file_count": len(files), "sha256": snapshot_digest(files)}
+                for name, files in protected_after.items()
+            },
+            ensure_ascii=False,
+            indent=2,
+            sort_keys=True,
+        ) + "\n",
+        encoding="utf-8",
+    )
 
     print(f"BrewGo Day2 Live Tasks workspaces rebuilt; data_version={version}")
     for task in TASKS:
         input_count = sum(1 for path in (TARGET_ROOT / task / "input").rglob("*") if path.is_file())
         print(f"BUILT {task}: input_files={input_count}, outputs_empty=True, instructor_assets_excluded=True")
-    print("PROTECTED Demo01-07 unchanged=True")
+    for name in protected_after:
+        print(f"PROTECTED {name} unchanged=True")
 
 
 if __name__ == "__main__":

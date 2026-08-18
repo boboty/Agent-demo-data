@@ -6,12 +6,15 @@
 
 至少确认：Amazon 站点、关键词、Top10 的定义、Sponsored 是否纳入、所需字段、重复商品 / 变体处理、采集截止时间，以及字段缺失时的处理方式。
 
-特别注意：搜索结果位置、Sponsored、Organic / 非广告结果与 Best Sellers Rank（BSR）是不同概念。没有可见 BSR 证据时，不得把“搜索前 10”写成“销量前 10”。
+特别注意：搜索结果位置、Sponsored、Organic / 非广告结果与 Best Sellers Rank（BSR）是不同概念。没有可见 BSR 证据时，不得把“搜索前 10”写成“销量前 10”。BSR 必须连同具体类目记录；不同类目的 BSR 不得直接横向比较或合并排序；BSR 也不得解释为销量件数。
 
 ## 执行模式
 
 - Live Mode：在确认范围后，优先访问公开 Amazon 页面。
-- Offline Fallback：Live 受阻时，使用 `input/offline/amazon-search-results.html` 与 `input/offline/products/`。所有离线页面都是虚构教学快照。
+- First-run Offline Fallback：第一次任务 Live 受阻时，使用 `input/offline/amazon-search-results.html` 与 `input/offline/products/`。
+- Skill second-run Offline Fallback：新会话复跑优先使用现场选择的新关键词 Live 执行；若 Live 受阻，使用 `input/offline-second-run/` 中固定的 `electric milk frother` 教学快照，只切换数据源，不改变 Skill 方法。
+
+两套离线页面都是虚构教学快照，商品集合互不重叠。第二套数据不能写入 Skill，也不能被当作第二次预制答案。
 
 切换 Offline 时仍应完整完成：搜索结果解析 → Sponsored 判断 → 候选去重 → 按确认口径选 Top10 → 字段抽取 → 输出 → 验收。
 
@@ -30,5 +33,10 @@
 
 ## Skill Lab 边界
 
-第一次任务验收通过后，再由课堂现场把稳定方法沉淀为 Skill；本工作区不预置最终 Skill。Skill 要保存方法与质量规则，不保存第一次关键词、ASIN、价格或答案。
+第一次任务验收通过后，再由课堂现场把稳定方法沉淀为 Skill；本工作区初始状态不得存在最终 Skill。正式落地路径固定为：
 
+    .agents/skills/amazon-competitor-discovery/SKILL.md
+
+创建后先检查路径正确，再新开会话；不要粘贴第一次答案，只提供新的关键词 / 业务输入，观察新会话是否发现并执行 Skill。Skill 要保存方法与质量规则，不保存第一次或第二次关键词对应的商品 ID、品牌、价格或答案。
+
+第二次 Live 失败时，讲师明确说明：“为了保留‘换任务复用 Skill’这个实验，只把数据源切换成 electric milk frother 教学快照。”随后继续按同一验收规则复跑。

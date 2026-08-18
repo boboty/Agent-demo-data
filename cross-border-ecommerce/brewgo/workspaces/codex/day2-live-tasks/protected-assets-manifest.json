@@ -1,0 +1,14 @@
+{
+  "Data Analysis": {
+    "file_count": 15,
+    "sha256": "6f2a75d48519d225ff5c307242bffc097cdcee9037a543358f3db6b3d54bc645"
+  },
+  "Demo01-07": {
+    "file_count": 102,
+    "sha256": "fbf34de9de464b6ae39f8bb8e1010a70c4feda9186a404ddbca2161c9de5227d"
+  },
+  "Quick Wins": {
+    "file_count": 120,
+    "sha256": "9faaf2c5136df4a837459836560a9465ae6f080d1033cf68be02df7570d7da09"
+  }
+}

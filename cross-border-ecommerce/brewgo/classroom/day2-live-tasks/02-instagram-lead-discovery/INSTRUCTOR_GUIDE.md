@@ -23,7 +23,6 @@
 
 ## Offline 切换
 
-说明 Live 受阻原因，然后使用教学搜索页与 18 个 Profile。集合包含 salon、stylist、wig store、beauty supply、品牌、电商、消费者、无关和信息不足账号。
+说明 Live 受阻原因，然后使用教学搜索页与 18 个 Profile。学员页面只呈现公开字段，不含分类标签；集合包含 salon、stylist、wig store、beauty supply、品牌、电商、消费者、无关和信息不足账号。讲师可在执行后用 `instructor/instagram-offline-reference.json` 抽查分类、决策理由与人工复核项，不要提前展示或复制进 workspace。
 
 一句收口：搜索不是结果，筛选之后形成业务对象才是结果。
-
