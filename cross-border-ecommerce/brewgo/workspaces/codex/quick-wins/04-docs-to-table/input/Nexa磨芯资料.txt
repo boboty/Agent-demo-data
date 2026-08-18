@@ -1,0 +1,10 @@
+Company: Nexa Burr Works
+Product: Steel burr set
+Model: NX-48S
+MOQ: 800 pcs
+Quote: 6.90/pc
+Lead time: 18 days
+Contact: Amy Qian
+Email: amy.qian@nexa.example
+Payment terms: 50% deposit, 50% before shipment
+Note: currency and certification were not stated.

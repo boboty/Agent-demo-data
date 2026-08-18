@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BrewGo Quick Wins｜课堂控制台</title>
+  <style>
+    :root { color-scheme: light; --ink:#17211b; --muted:#59665f; --line:#d9e1dc; --green:#174b35; --pale:#f4f7f4; --accent:#e9f3a7; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--pale); color:var(--ink); font:18px/1.55 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif; }
+    header { padding:34px clamp(24px,5vw,72px); background:var(--green); color:white; }
+    header small { display:block; color:var(--accent); font-weight:800; letter-spacing:.08em; }
+    h1 { margin:6px 0 4px; font-size:clamp(32px,4vw,54px); line-height:1.15; }
+    header p { margin:8px 0 0; color:#dce8e1; font-size:20px; }
+    main { max-width:1500px; margin:auto; padding:28px clamp(18px,4vw,56px) 54px; }
+    .note { margin-bottom:22px; padding:14px 18px; border:1px solid var(--line); background:white; border-radius:12px; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; }
+    article { display:flex; flex-direction:column; min-height:390px; padding:24px; border:1px solid var(--line); border-radius:16px; background:white; box-shadow:0 8px 22px rgba(23,33,27,.05); }
+    .tag { color:var(--green); font-size:15px; font-weight:900; letter-spacing:.05em; }
+    h2 { margin:3px 0 8px; font-size:28px; line-height:1.25; }
+    .goal { margin:0 0 14px; color:var(--muted); font-size:19px; }
+    .path { margin:0; padding:10px 12px; border-radius:8px; background:#eef2ef; font:16px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace; overflow-wrap:anywhere; }
+    h3 { margin:17px 0 4px; font-size:17px; }
+    ul { margin:4px 0 18px; padding-left:23px; }
+    li { margin:4px 0; }
+    .actions { display:flex; gap:10px; margin-top:auto; flex-wrap:wrap; }
+    button { border:1px solid var(--green); border-radius:9px; padding:11px 15px; background:white; color:var(--green); font:700 17px/1 system-ui,sans-serif; cursor:pointer; }
+    button.primary { background:var(--green); color:white; }
+    button:hover { filter:brightness(.96); }
+    #toast { position:fixed; right:24px; bottom:24px; padding:12px 18px; border-radius:9px; background:var(--ink); color:white; opacity:0; transform:translateY(8px); transition:.2s; pointer-events:none; }
+    #toast.show { opacity:1; transform:none; }
+    footer { margin-top:28px; color:var(--muted); text-align:center; }
+    @media (max-width:900px) { .grid { grid-template-columns:1fr; } article { min-height:0; } }
+  </style>
+</head>
+<body>
+  <header>
+    <small>BREWGO · CLASSROOM QUICK WINS</small>
+    <h1>Quick Wins｜明天回公司就能用</h1>
+    <p>六个 5～10 分钟小任务 · 离线完成 · 原始输入不动 · 不确定性留给人确认</p>
+  </header>
+  <main>
+    <div class="note">统一动作：读取 <b>input/</b> → 明确 outputs/ 交付 → 处理 → 暴露异常/不确定性 → 人工确认。此区域独立于 Demo 01～07。</div>
+    <section class="grid" id="cards"></section>
+    <footer>课前恢复：<code>python3 scripts/build_quick_wins.py</code></footer>
+  </main>
+  <div id="toast" role="status"></div>
+  <script>
+    const tasks = [
+      {
+        id:"QW01", name:"乱文件夹自动整理", goal:"扫描混乱文件，给出规则，把副本统一命名并整理，同时保留无法判断的边界。",
+        path:"workspaces/codex/quick-wins/01-file-organizer",
+        watch:["是否读取内容而非只看扩展名","18 个副本与索引能否逐一追溯","附件.pdf 是否进入 NEEDS_REVIEW"],
+        prompt:"请扫描当前工作区 input/ 里的所有文件，结合文件名和可读取内容判断文件类型与业务类别，先在 outputs/organization-plan.md 写清分类和统一命名规则，再把每个文件的副本整理到 outputs/organized/ 下，并生成 outputs/file-index.md 或 outputs/file-index.csv。索引要能从原文件名追溯到新路径，并说明判断依据。\n\n不要删除、移动、改名或覆盖 input/ 中的原文件，也不要把多个版本擅自合并。无法可靠判断归属、日期或版本的文件请放入 outputs/organized/NEEDS_REVIEW/，保留原文件名并写明需要人工确认的问题；不要猜。"
+      },
+      {
+        id:"QW02", name:"两个版本自动找差异", goal:"对齐两版供应商报价，只报告新增、删除、修改与高风险业务变化。",
+        path:"workspaces/codex/quick-wins/02-version-diff",
+        watch:["是否按 SKU + 供应商对齐","是否排除完全未变记录","风险是否落到成本、MOQ、交付、付款"],
+        prompt:"请比较 input/supplier_quote_v3.xlsx 和 input/supplier_quote_final.xlsx，按 SKU 与供应商对齐记录，只报告真正变化，并区分新增、删除和修改。请生成 outputs/change-report.xlsx 和 outputs/change-summary.md；明细中写出旧值、新值和变化字段，摘要中指出可能影响采购、成本、交付或现金安排的高风险变化。\n\n不要修改或覆盖两份原始 Excel，也不要按行号直接比较。风险判断请说明依据并作为待业务人员复核的提示；字段含义、匹配关系或影响无法确定时要明确暴露，不要猜。"
+      },
+      {
+        id:"QW03", name:"邮件/会议纪要变待办", goal:"把散落消息变成有负责人、截止日、状态、缺口和证据的行动表。",
+        path:"workspaces/codex/quick-wins/03-action-items",
+        watch:["无负责人/日期是否保持空白","同一事项是否跨来源合并","20 日与 21 日冲突是否暴露"],
+        prompt:"请读取 input/ 中的邮件、会议纪要和聊天记录，把其中可执行事项去重整理成 outputs/action-items.xlsx。字段至少包括：事项、责任人、截止日期、当前状态、依赖/缺口、原文依据、是否需要人工确认；原文依据请写来源文件与能支持该记录的简短内容，同一事项在多个来源出现时要合并并保留各处依据。\n\n不要修改或覆盖原始资料。没有写责任人就留空，没有写截止日期就留空，不要自行指定或推算；不同来源有冲突时请同时记录冲突值并标记人工确认，不要静默选择一个版本。"
+      },
+      {
+        id:"QW04", name:"文档资料批量变结构化表格", goal:"从 DOCX、PDF、TXT、MD 批量抽取供应商字段，形成可筛选主表。",
+        path:"workspaces/codex/quick-wins/04-docs-to-table",
+        watch:["是否一份资料一行并保留来源","缺失与明确没有是否区分","6.90/pc 是否没有被猜成 USD"],
+        prompt:"请批量读取 input/ 中的供应商和产品资料，生成 outputs/supplier-master.xlsx，一份资料一行，统一字段至少包括：公司名、产品、型号、MOQ、报价、交期、联系人、Email、认证、付款方式，并增加来源文件、缺失字段、是否需要人工确认。可以统一明显的空格和字段名称，但要保留原始业务含义。\n\n同时生成 outputs/missing-fields.md，按来源列出缺失或无法确认的字段。不要修改或覆盖原始文档；资料没写的字段保持为空，不得根据常识、其他供应商资料或上下文猜测补全，币种、单位或含义不确定时要明确标记。"
+      },
+      {
+        id:"QW05", name:"Excel 数据体检", goal:"先定位脏数据并按处理风险分级，不急着自动清洗。",
+        path:"workspaces/codex/quick-wins/05-data-health-check",
+        watch:["问题是否定位到行和字段","是否分成三种处理级别","数量 120 是否保留人工确认"],
+        prompt:"请只对 input/dirty-orders.xlsx 做数据体检，不要修改、覆盖或另存清洗后的原表。请生成 outputs/data-health-report.xlsx，逐项记录问题类型、工作表/行/字段、原值、问题说明、建议动作、处理级别和是否需要人工确认；再生成 outputs/fix-plan.md，把建议分为“可自动修复”“建议修复”“必须人工确认”。\n\n请检查重复、空值、单位与币种混用、日期格式、前后空格、字段名、明显异常值等问题。只把确定且不改变业务含义的操作列为可自动修复；业务含义不确定或看似异常但可能真实的记录要保留并说明为什么需要人工确认，不要猜测正确值。"
+      },
+      {
+        id:"QW06", name:"文件夹自动生成周报", goal:"从六类工作痕迹生成带来源的周报，严格区分完成、进行中与计划。",
+        path:"workspaces/codex/quick-wins/06-weekly-report",
+        watch:["六个指定章节是否齐全","重要事项是否标注来源","发货状态冲突是否交给管理者确认"],
+        prompt:"请读取 input/weekly-work/ 中本周留下的全部工作资料，生成 outputs/weekly-report.md。周报至少包含：本周完成、本周新增、异常/风险、仍待解决、下周行动、需要管理者确认；每个重要判断尽量在条目后标注来源文件，让人能快速回查。\n\n不要修改或覆盖任何原始资料。请严格区分“已完成/已发生”“正在进行”“计划做/待确认”，不能把计划写成完成；来源之间状态冲突、证据不足或需要管理决策时，要在对应章节和“需要管理者确认”中明确暴露，不要猜。"
+      }
+    ];
+    const escapeHtml = value => value.replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"})[char]);
+    document.querySelector("#cards").innerHTML = tasks.map((task, index) => `
+      <article>
+        <div class="tag">${task.id} · ${index + 1}/6</div>
+        <h2>${task.name}</h2>
+        <p class="goal">${task.goal}</p>
+        <p class="path">${task.path}</p>
+        <h3>课堂只看这 3 点</h3>
+        <ul>${task.watch.map(item => `<li>${item}</li>`).join("")}</ul>
+        <div class="actions">
+          <button class="primary" data-copy="prompt" data-index="${index}">复制指令</button>
+          <button data-copy="path" data-index="${index}">复制 workspace 路径</button>
+        </div>
+      </article>`).join("");
+    async function copyText(value, message) {
+      try { await navigator.clipboard.writeText(value); }
+      catch (_) {
+        const area = document.createElement("textarea"); area.value = value; area.style.position = "fixed"; area.style.opacity = "0";
+        document.body.appendChild(area); area.select(); document.execCommand("copy"); area.remove();
+      }
+      const toast = document.querySelector("#toast"); toast.textContent = message; toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 1600);
+    }
+    document.addEventListener("click", event => {
+      const button = event.target.closest("button[data-copy]"); if (!button) return;
+      const task = tasks[Number(button.dataset.index)];
+      button.dataset.copy === "prompt" ? copyText(task.prompt, `${task.id} 指令已复制`) : copyText(task.path, `${task.id} 路径已复制`);
+    });
+  </script>
+</body>
+</html>

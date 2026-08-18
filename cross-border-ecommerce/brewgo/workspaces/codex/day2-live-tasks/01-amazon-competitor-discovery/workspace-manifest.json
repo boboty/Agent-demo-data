@@ -1,0 +1,29 @@
+{
+  "data_version": "brewgo-v1.2-20260818",
+  "final_skill_preinstalled": false,
+  "generated_files": {
+    "AGENTS.md": "c2ca2826a924d892e064fa4eb452eaaa5955dffeca09d96b0dbe22fedb052578",
+    "RAW_REQUEST.md": "086a0eb0d1a86df89d0cfe6c24b8ac6fee61010b1aa25b97c3af2852401dec63",
+    "README.md": "e7e0753569155f1d398fd62bb84880790fe9185c20b1d82e1ada94eac4dd0036",
+    "input/offline/README.md": "5dab6afe78575d46c53dcb44e3b1a837a7ccf87a03423e8063fb68442cd04013",
+    "input/offline/amazon-search-results.html": "111f99a60b225a6d80eed5c6613383984ae5bbff34fdf4c171ab418027500de0",
+    "input/offline/products/tch-a001.html": "73a976b29eb3f01ced3908e25a6099693cce7cb528881537960388f38b34f206",
+    "input/offline/products/tch-b002.html": "2eb323cf935d9ee417b75bc85e52d5234b76a972e39e1beb185d93648dffee62",
+    "input/offline/products/tch-c003.html": "05010564c3a74efe54a2144819b215b3cf271cd1abcd310213c5efa8a00ec17b",
+    "input/offline/products/tch-d004.html": "d12e028e1a214427b13cd16fedc67198f09af337a6e51e9cf0a4a223f2bd8acc",
+    "input/offline/products/tch-e005.html": "86a41292cdda9666a0b5e1c93153088e655df57f2f927691ede64d3d3bc05be1",
+    "input/offline/products/tch-f006.html": "5de1c1f0de4a5bee90fbd559da059237df17e2b04f6edeb5da29cc19bd603021",
+    "input/offline/products/tch-g007.html": "f4ce61f76f890318759681fed5c654285cac6d9fd49b456342ce99aeede0d39a",
+    "input/offline/products/tch-h008.html": "2d7520a25a4ec182a2e6c283f45f6a0d455bbff3b751e2a4368bbc625677603e",
+    "input/offline/products/tch-i009.html": "9d5aca94c8b8e1e6a7ad62fbced9c5975b23cb0e49be373576326a3061a11cb1",
+    "input/offline/products/tch-j010.html": "3fc0015fc1093dad61f9c773e95f2c141425ab941abbee73a7f048c4fe88babf",
+    "input/offline/products/tch-k011.html": "2a129df3fda19f9487a8dc4203515701c7b577591dcbc5a5a6dbe2d19534c654",
+    "input/offline/products/tch-l012.html": "0771fe2acbc8c8d17230881c708cd7c2f8c702e055b1d2c35aa47068398cf403",
+    "outputs/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "instructor_assets_excluded": true,
+  "outputs_initially_empty": true,
+  "source": "classroom/day2-live-tasks/01-amazon-competitor-discovery",
+  "task": "01-amazon-competitor-discovery",
+  "workspace": "brewgo/codex/day2-live-tasks/01-amazon-competitor-discovery"
+}

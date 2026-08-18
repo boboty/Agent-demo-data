@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Day2 · Live Tasks</title>
+  <style>
+    :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;color:#18221c;background:#f1ede3;--green:#195f43;--gold:#bf7413;--line:#d6cebe}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh}.shell{display:grid;grid-template-columns:280px 1fr;min-height:100vh}.side{padding:30px 22px;background:#173d2f;color:#fff}.side h1{font-size:25px;margin:0 0 6px}.side p{color:#c9d8d0;line-height:1.45}.tabs{display:grid;gap:10px;margin-top:28px}.tab{border:1px solid #ffffff28;background:#ffffff0d;color:#fff;text-align:left;padding:14px;border-radius:12px;font:inherit;cursor:pointer}.tab small{display:block;color:#bcd0c6;margin-top:4px}.tab.active{background:#fff;color:#173d2f}.tab.active small{color:#607168}.main{padding:38px;max-width:1180px;width:100%}.topline{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.eyebrow{color:var(--green);font-weight:800;letter-spacing:.08em}.topline h2{font-size:38px;margin:6px 0}.mode{border:1px solid var(--line);background:#fff;padding:10px 13px;border-radius:999px}.panel{display:none}.panel.active{display:block}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:0 7px 24px #4a3a2010}.card h3{margin:0 0 12px}.path{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#eef2ec;padding:12px;border-radius:10px;overflow-wrap:anywhere}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}button.copy,a.link{border:0;border-radius:9px;background:var(--green);color:#fff;padding:10px 13px;font:inherit;text-decoration:none;cursor:pointer}.secondary{background:#e7e1d4!important;color:#28342c!important}.flow{display:flex;gap:8px;align-items:center;overflow:auto;padding:12px 0 24px}.step{white-space:nowrap;background:#fff;border:1px solid var(--line);padding:11px 13px;border-radius:999px;font-weight:700}.arrow{color:#927d5f}.prompt{white-space:pre-wrap;background:#17231d;color:#e8f1eb;border-radius:12px;padding:16px;font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}.watch{border-left:5px solid var(--gold);background:#fff7e7;padding:14px;margin-top:16px}.footer{color:#697269;margin-top:24px}.toast{position:fixed;right:24px;bottom:24px;background:#16251d;color:#fff;padding:12px 16px;border-radius:10px;opacity:0;transform:translateY(10px);transition:.2s}.toast.show{opacity:1;transform:none}@media(max-width:800px){.shell{grid-template-columns:1fr}.side{padding:22px}.tabs{grid-template-columns:1fr 1fr 1fr}.main{padding:24px}.cards{grid-template-columns:1fr}.topline h2{font-size:30px}}@media(max-width:560px){.tabs{grid-template-columns:1fr}.topline{display:block}.mode{display:inline-block}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="side">
+      <h1>Day2 · Live Tasks</h1>
+      <p>三个学员真实需求。先澄清，再执行；页面只做课堂控制，不替代教材。</p>
+      <nav class="tabs" aria-label="任务切换">
+        <button class="tab active" data-tab="amazon">01 Amazon<small>竞品发现 · 核心任务</small></button>
+        <button class="tab" data-tab="instagram">02 Instagram<small>潜客发现</small></button>
+        <button class="tab" data-tab="data">03 Data<small>分析 → Dashboard</small></button>
+      </nav>
+    </aside>
+    <main class="main">
+      <section class="panel active" id="amazon">
+        <div class="topline"><div><div class="eyebrow">DAY2 / REAL NEED LAB</div><h2>Amazon 竞品发现</h2></div><div class="mode">Live 优先 · Offline 可切换</div></div>
+        <div class="flow" aria-label="Amazon 课堂流程"><span class="step">原始需求</span><span class="arrow">→</span><span class="step">澄清</span><span class="arrow">→</span><span class="step">第一次执行</span><span class="arrow">→</span><span class="step">Skill</span><span class="arrow">→</span><span class="step">新关键词复跑</span><span class="arrow">→</span><span class="step">验收</span></div>
+        <div class="cards">
+          <article class="card"><h3>打开 Workspace</h3><div class="path">workspaces/codex/day2-live-tasks/01-amazon-competitor-discovery</div><div class="actions"><button class="copy" data-copy="workspaces/codex/day2-live-tasks/01-amazon-competitor-discovery">复制路径</button><a class="link secondary" href="../classroom/day2-live-tasks/01-amazon-competitor-discovery/RAW_REQUEST.md">原始需求</a><a class="link secondary" href="../classroom/day2-live-tasks/01-amazon-competitor-discovery/INSTRUCTOR_GUIDE.md">讲师指南</a></div></article>
+          <article class="card"><h3>第一次开场指令</h3><div class="prompt" id="amazon-prompt">先读取 RAW_REQUEST.md。不要立即搜索；先列出会改变任务口径或验收结果的澄清问题，等我回答后复述最终任务定义，再执行。</div><div class="actions"><button class="copy" data-copy-target="amazon-prompt">复制指令</button></div></article>
+          <article class="card"><h3>Offline 切换</h3><p>保留已确认口径，只把来源切到教学快照，并在 notes 记录失败原因、切换时间和数据性质。</p><div class="path">input/offline/amazon-search-results.html</div></article>
+          <article class="card"><h3>Skill Lab</h3><p>第一次验收后再创建 Skill。第二关键词由现场从 3 个候选中选，并新开会话复跑。</p><div class="actions"><a class="link secondary" href="amazon-skill-reference.md">讲师 Plan B</a><a class="link secondary" href="day2-live-tasks-acceptance.md">验收表</a></div></article>
+        </div>
+        <p class="watch"><strong>盯住：</strong>搜索位置 ≠ 销量；Sponsored ≠ Organic；可见 BSR 才能记录；缺失字段不能猜。</p>
+      </section>
+
+      <section class="panel" id="instagram">
+        <div class="topline"><div><div class="eyebrow">DAY2 / REAL NEED LAB</div><h2>Instagram 潜客发现</h2></div><div class="mode">公开信息 · 人工复核</div></div>
+        <div class="cards">
+          <article class="card"><h3>打开 Workspace</h3><div class="path">workspaces/codex/day2-live-tasks/02-instagram-lead-discovery</div><div class="actions"><button class="copy" data-copy="workspaces/codex/day2-live-tasks/02-instagram-lead-discovery">复制路径</button><a class="link secondary" href="../classroom/day2-live-tasks/02-instagram-lead-discovery/RAW_REQUEST.md">原始需求</a><a class="link secondary" href="../classroom/day2-live-tasks/02-instagram-lead-discovery/INSTRUCTOR_GUIDE.md">讲师指南</a></div></article>
+          <article class="card"><h3>Plan First 指令</h3><div class="prompt" id="instagram-prompt">读取 RAW_REQUEST.md 后先做 Plan First：确认地域、目标账号类型、业务用途、数量和排除项。得到回答后先复述筛选规则，再只用公开信息形成可人工复核的 Lead List。</div><div class="actions"><button class="copy" data-copy-target="instagram-prompt">复制指令</button></div></article>
+          <article class="card"><h3>Offline 切换</h3><div class="path">input/offline/search-results.html</div><p>18 个虚构 Profile 包含真实候选形态与噪声，但不是实际账号。</p></article>
+          <article class="card"><h3>验收重点</h3><p>候选经过筛选；分类有证据；地点不推测；source 保留；不确定项进入 Manual Review。</p><div class="actions"><a class="link secondary" href="day2-live-tasks-acceptance.md">验收表</a></div></article>
+        </div>
+        <p class="watch"><strong>边界：</strong>不访问私人内容，不自动关注 / 私信，不做批量营销，不推测私人联系方式。</p>
+      </section>
+
+      <section class="panel" id="data">
+        <div class="topline"><div><div class="eyebrow">DAY2 / REAL NEED LAB</div><h2>Data Analysis → Dashboard</h2></div><div class="mode">本地数据 · 可离线打开</div></div>
+        <div class="cards">
+          <article class="card"><h3>打开 Workspace</h3><div class="path">workspaces/codex/day2-live-tasks/03-data-analysis-dashboard</div><div class="actions"><button class="copy" data-copy="workspaces/codex/day2-live-tasks/03-data-analysis-dashboard">复制路径</button><a class="link secondary" href="../classroom/day2-live-tasks/03-data-analysis-dashboard/RAW_REQUEST.md">原始需求</a><a class="link secondary" href="../classroom/day2-live-tasks/03-data-analysis-dashboard/INSTRUCTOR_GUIDE.md">讲师指南</a></div></article>
+          <article class="card"><h3>开场指令</h3><div class="prompt" id="data-prompt">读取 RAW_REQUEST.md、README.md、input/DATA_DICTIONARY.md 和工作簿 README sheet。先做数据体检并提出关键口径问题；确认后再分析，输出可追溯工作簿、结论和无需服务器或 CDN 的单文件 Dashboard。</div><div class="actions"><button class="copy" data-copy-target="data-prompt">复制指令</button></div></article>
+          <article class="card"><h3>三项输出</h3><p>`analysis.md` · `analysis.xlsx` · `dashboard.html`</p><p>至少四张图，标题写业务问题；关键数字能回到汇总口径。</p></article>
+          <article class="card"><h3>讲师 Plan B</h3><p>只在时间不足或前端失败时展示参考 Dashboard，不复制进学员 workspace。</p><div class="actions"><a class="link secondary" href="day2-data-dashboard-reference.html">打开参考 Dashboard</a><a class="link secondary" href="day2-live-tasks-acceptance.md">验收表</a></div></article>
+        </div>
+        <p class="watch"><strong>盯住：</strong>先暴露质量问题；指标分母正确；图与结论同口径；同步变化不等于因果。</p>
+      </section>
+      <p class="footer">独立课堂区域，不属于 Demo01～07 编号体系。完整节奏见 day2-live-tasks-runbook.md。</p>
+    </main>
+  </div>
+  <div class="toast" role="status" aria-live="polite">已复制</div>
+  <script>
+    const tabs=[...document.querySelectorAll('.tab')],panels=[...document.querySelectorAll('.panel')],toast=document.querySelector('.toast');
+    tabs.forEach(tab=>tab.addEventListener('click',()=>{tabs.forEach(x=>x.classList.toggle('active',x===tab));panels.forEach(x=>x.classList.toggle('active',x.id===tab.dataset.tab));}));
+    async function copyText(value){try{await navigator.clipboard.writeText(value)}catch(_){const area=document.createElement('textarea');area.value=value;area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();document.execCommand('copy');area.remove()}toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1200)}
+    document.querySelectorAll('[data-copy],[data-copy-target]').forEach(button=>button.addEventListener('click',()=>copyText(button.dataset.copy||document.getElementById(button.dataset.copyTarget).innerText)));
+  </script>
+</body>
+</html>
+

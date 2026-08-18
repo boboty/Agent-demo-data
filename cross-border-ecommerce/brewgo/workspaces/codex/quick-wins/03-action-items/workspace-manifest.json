@@ -1,0 +1,15 @@
+{
+  "data_version": "brewgo-v1.2-20260818",
+  "generated_files": {
+    "README.md": "9c4a5b495df4564c549a902fe104c8ef78c347bac54eba626d452c236fddf33a",
+    "input/email-01-revised-quote.eml": "24130c4855bf017abb57cc9c329b68460b0c2918b5c2d0ed7020e31de01f659f",
+    "input/email-02-sample-photo.eml": "a0b4629da487944e5bae9e189e0bcc54110bc077ed827c3c518d49b61ff10189",
+    "input/email-03-customs.eml": "c29e4c9ff1ab37853172264551fe4974094a162abf72fadcd471b600219ecbba",
+    "input/meeting-notes-0818.docx": "4d0faf71c08aec80ec3e9cb3b3f5852d5002763dc01709c797c5f85fc6e25c50",
+    "input/project-chat-0818.md": "60e68bdc6d326ce3fca99347aa9d0b00ec4a026d33074bd3d60cfb2b87fd8c83"
+  },
+  "outputs_initially_empty": true,
+  "source": "classroom/quick-wins/03-action-items",
+  "task": "03-action-items",
+  "workspace": "brewgo/codex/quick-wins/03-action-items"
+}

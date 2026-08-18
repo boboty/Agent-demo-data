@@ -1,0 +1,17 @@
+{
+  "data_version": "brewgo-v1.2-20260818",
+  "generated_files": {
+    "README.md": "af18c321c3c334d92b07060a0039b7f1e146be0798498fdb4558f304a274ad94",
+    "input/Aurora_Supplier_Profile.docx": "e157041f8360489daa54ea5b03d65cc0c455892b8cdf579866691d31c1f459bb",
+    "input/BrewParts_offer.pdf": "1083820c5c0acd782a24d56787fbb6f057483309d2ee6b086f57785033f26ae9",
+    "input/Mira_compliance_spec.docx": "6a16f761c11d8742f8fefd733cc75da15594ce6890a75781b416d1932fc75f8a",
+    "input/Nexa磨芯资料.txt": "03896c512b1019af51961ee546b8244af18c345dcae4155ba7488d2a23beff07",
+    "input/Orion_Accessories_Quote.pdf": "a8605489ca74d8b2de72e57db5bc62564419812908c7be56d318975490a4376d",
+    "input/Westwind_intro.md": "5b0dea199fae0777fc94c9697f0d9936180e2ff73d9fb42c84b3c5f217e96040",
+    "input/青杉包装资料.md": "ee0a25fcd38c7cb4f8fe062c51e74ba7ce8cb4e7c36d18c83822b9f9993bdae2"
+  },
+  "outputs_initially_empty": true,
+  "source": "classroom/quick-wins/04-docs-to-table",
+  "task": "04-docs-to-table",
+  "workspace": "brewgo/codex/quick-wins/04-docs-to-table"
+}

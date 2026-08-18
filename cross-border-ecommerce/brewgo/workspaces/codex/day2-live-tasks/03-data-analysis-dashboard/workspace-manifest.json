@@ -1,0 +1,17 @@
+{
+  "data_version": "brewgo-v1.2-20260818",
+  "final_skill_preinstalled": false,
+  "generated_files": {
+    "AGENTS.md": "c2ca2826a924d892e064fa4eb452eaaa5955dffeca09d96b0dbe22fedb052578",
+    "RAW_REQUEST.md": "aa67fb448f0e25292ac9898a78847fd06be69ab72bc92520ec98cb0b31cbb7fb",
+    "README.md": "5358e7bfc2506d7533e1a18bb4901bd482bdbb4c2e911c8f90878e0b7d0fb230",
+    "input/DATA_DICTIONARY.md": "88bf11b4baeefce5b2afcb212d2ad1544bac627d408714cf4a915d0cb802fbcb",
+    "input/business-performance.xlsx": "2d4cb7a1d0a994b3424617db50f81a93207df517f84a25645c87882ff1264b64",
+    "outputs/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "instructor_assets_excluded": true,
+  "outputs_initially_empty": true,
+  "source": "classroom/day2-live-tasks/03-data-analysis-dashboard",
+  "task": "03-data-analysis-dashboard",
+  "workspace": "brewgo/codex/day2-live-tasks/03-data-analysis-dashboard"
+}

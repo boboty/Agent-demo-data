@@ -1,0 +1,11 @@
+{
+  "data_version": "brewgo-v1.2-20260818",
+  "generated_files": {
+    "README.md": "af56194c3bf0b27e91e48e527711e86d1c0f42f0d06d66a6ed5ead86bd25ab42",
+    "input/dirty-orders.xlsx": "7b1409ae1928163ef77ec4fb6b89f0677f87d6998a9719ef95051364a13683f5"
+  },
+  "outputs_initially_empty": true,
+  "source": "classroom/quick-wins/05-data-health-check",
+  "task": "05-data-health-check",
+  "workspace": "brewgo/codex/quick-wins/05-data-health-check"
+}

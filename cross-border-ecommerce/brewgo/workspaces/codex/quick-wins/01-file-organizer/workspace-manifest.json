@@ -1,0 +1,28 @@
+{
+  "data_version": "brewgo-v1.2-20260818",
+  "generated_files": {
+    "README.md": "8562b18dd8f0ccf1bba5aa4afaefad669497ecb29deeffcb7a642366f9a6be04",
+    "input/8.13更新.csv": "51db54135dde6d7a7ac19fac080ef9bc091a312a7b6968c0d92dae5a6173c783",
+    "input/G2_white_bg_final.jpg": "698ef6e46dbf1fe37216c1bc4db9aeab5b2b6c933f7144b911e74a6bd41f72ca",
+    "input/IMG_0021.jpg": "1cb168fb37532dbbb9c7b4ec79f219bc7a3e4a062ca0b39e0714484b92c58e50",
+    "input/inventory_new.csv": "be176b6c84db84d292cdf170250612e2fe514eafcbd44fb1b2dcf0d38538b62b",
+    "input/note.txt": "19f9986020a2e5851ad349aaeaf9390025539c908b9db0608322279fcdca72a3",
+    "input/scan001.pdf": "24a01220379b943536468242d4d30742b896b955e9665694d26846b59e0beda3",
+    "input/产品参数-新.txt": "634e880c8d9d4b0c5415f5da95baf2c2e7350972aa7c571fe9f0390e01e39ff0",
+    "input/会议记录0812.docx": "eaff42c21b2685e16f55fb3fad24f2c082d407d8b46066c6a246389b31150ac4",
+    "input/合同草稿(1).docx": "ee542bc196d93f05245b8464d2b293693ec4dade7d3e4c07d36eadd827b19999",
+    "input/客户A-v2.docx": "04cbb7be0cffa3630f9b9e74e1a6dbc2ed24b013cbc3d151a1440640b763e18b",
+    "input/客户资料.pdf": "64cbb9287f0b98147b86d4ca0b2ea18e812e04ee0a4d60a1986c5e66853a3775",
+    "input/微信图片_20260813_101522.png": "c211284d4a2601b9d5b99455ed2af308ddcf88b899c9cca00f2c2222eb730869",
+    "input/报价新.xlsx": "61904866f9e30bff3f4d0d0989356c76c3b92797836054c36710708bf86f6281",
+    "input/报价最终版2.xlsx": "4fe7686df264ee610c786a3d0eb41cf368e3d55e3df5b2fa583e47676b9e665a",
+    "input/最终版.xlsx": "6b8f96c0e3dbd279a3f1e49ca0a17d1db46315f96a505eb4c1e6a044bdc972bf",
+    "input/未命名.md": "52b9a27f74fac70223f7dc51d2c5a0664653b5d062ec3d011cf93df196f01504",
+    "input/装箱单 copy.xlsx": "77088b07c4edce1bb15a99b68cd65d555de2ddf28d0383745b83cd50ade0939a",
+    "input/附件.pdf": "afd6b028325b5c34901a94423e7801735e04186141096a0ff6bbcea1d0ca46eb"
+  },
+  "outputs_initially_empty": true,
+  "source": "classroom/quick-wins/01-file-organizer",
+  "task": "01-file-organizer",
+  "workspace": "brewgo/codex/quick-wins/01-file-organizer"
+}

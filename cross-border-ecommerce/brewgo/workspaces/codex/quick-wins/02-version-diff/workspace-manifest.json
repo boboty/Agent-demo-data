@@ -1,0 +1,12 @@
+{
+  "data_version": "brewgo-v1.2-20260818",
+  "generated_files": {
+    "README.md": "19290a0c3c45a210c19e3a9349a3bd9c009c796b2fdad3f214fab4a0122208b2",
+    "input/supplier_quote_final.xlsx": "332895feb4bfc6eed532ce98ff1f269ab5dddf789b782152b7140689dfd1ae1a",
+    "input/supplier_quote_v3.xlsx": "74eced61d2fed2529cc6e2dff8b713bdeff5afd68dcd29f4f9b6db5a003c67b4"
+  },
+  "outputs_initially_empty": true,
+  "source": "classroom/quick-wins/02-version-diff",
+  "task": "02-version-diff",
+  "workspace": "brewgo/codex/quick-wins/02-version-diff"
+}

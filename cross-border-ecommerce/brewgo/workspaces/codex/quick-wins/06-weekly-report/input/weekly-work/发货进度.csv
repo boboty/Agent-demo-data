@@ -1,0 +1,4 @@
+﻿Shipment,Customer,Status,Last Update,Risk
+BG260812,NorthPeak Coffee,In transit,2026-08-17,None reported
+BG260815,Harbor Beans,Departed port,2026-08-16,Customs document check pending
+BG260816,Urban Office,Booking delayed to 2026-08-22,2026-08-18,Carton label approval late

@@ -1,0 +1,16 @@
+{
+  "data_version": "brewgo-v1.2-20260818",
+  "generated_files": {
+    "README.md": "954bad25c046dd2fd45b2205692a44b123265ef6837a0bbdcd58f6a98f442141",
+    "input/weekly-work/产品问题.md": "671e29affeb97e44c194ff23ed0a507da01b4c5542b1591347817cc3d39b2d37",
+    "input/weekly-work/会议纪要-周例会.docx": "adadd339ca5e26978b0e816efc2fa8ebda222a03ca81f865796e03716b068ebc",
+    "input/weekly-work/发货进度.csv": "8ded9caa712176d770917d9304af51d83104ac7af625644fd044a8af0caca47d",
+    "input/weekly-work/客户跟进.xlsx": "5566547ad870cf8eafff08c44d2add197799c46ff7268917758a099d1354e81a",
+    "input/weekly-work/待办记录.txt": "73f2f4601d7f42a6737d51fd37481251bb83ab79f96db1e94c5ae3f62e53c789",
+    "input/weekly-work/报价变化.xlsx": "d14350961cf2417bd27c10a0c69009827826004f7490835e14330f86069d8fa5"
+  },
+  "outputs_initially_empty": true,
+  "source": "classroom/quick-wins/06-weekly-report",
+  "task": "06-weekly-report",
+  "workspace": "brewgo/codex/quick-wins/06-weekly-report"
+}
