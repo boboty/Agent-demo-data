@@ -51,21 +51,6 @@ SEARCH_TERM_INPUTS = (
     ),
 )
 
-COMPETITOR_INPUTS = tuple(
-    (
-        Path("classroom/06-competitor-listing-optimization/input/competitors") / filename,
-        Path("input/competitors") / filename,
-    )
-    for filename in (
-        "competitor_a_listing.md",
-        "competitor_a_reviews.csv",
-        "competitor_b_listing.md",
-        "competitor_b_reviews.csv",
-        "competitor_c_listing.md",
-        "competitor_c_reviews.csv",
-    )
-)
-
 STAGE_ASSETS = {
     "01-direct-task": (
         (Path("classroom/01-direct-task/task.md"), Path("task.md")),
@@ -97,9 +82,9 @@ STAGE_ASSETS = {
         (Path("classroom/03-project-context/project-context.md"), Path("project-context.md")),
         (Path("adapters/codex/AGENTS.md.template"), Path("AGENTS.md")),
         (Path("classroom/06-competitor-listing-optimization/task.md"), Path("task.md")),
+        (Path("classroom/06-competitor-listing-optimization/report-template.html"), Path("report-template.html")),
         *BUSINESS_SNAPSHOT,
         *COMMON_INPUTS,
-        *COMPETITOR_INPUTS,
     ),
 }
 

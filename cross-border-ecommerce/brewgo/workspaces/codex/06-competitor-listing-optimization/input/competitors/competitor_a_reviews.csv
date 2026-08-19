@@ -1,7 +1,0 @@
-review_id,review_date,competitor_id,rating,title,review_text,verified_purchase,topic_hint,data_notice
-A-R01,2026-07-03,COMP-A,5,Fast before work,"It finishes my usual cup quickly, and I like seeing the numbered settings.",Y,speed,Fictional teaching data
-A-R02,2026-07-08,COMP-A,3,Louder than expected,"The motor is convenient but louder than I expected in a shared office kitchen.",Y,noise,Fictional teaching data
-A-R03,2026-07-14,COMP-A,3,Takes space in my bag,"The body feels stable on a counter, but it is bulky and heavier than I want for carry-on travel.",Y,portability,Fictional teaching data
-A-R04,2026-07-22,COMP-A,2,Forgot to charge it,"I reached the office with a low battery and could not finish the batch until I charged it.",Y,charging,Fictional teaching data
-A-R05,2026-07-29,COMP-A,4,Useful range,"I use several settings, although I have not tested all 38.",N,settings,Fictional teaching data
-

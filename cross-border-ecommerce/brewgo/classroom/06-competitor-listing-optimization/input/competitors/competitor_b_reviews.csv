@@ -1,7 +1,0 @@
-review_id,review_date,competitor_id,rating,title,review_text,verified_purchase,topic_hint,data_notice
-B-R01,2026-07-02,COMP-B,5,Easy carry-on choice,"It fits beside my brewer in a carry-on and does not need a charging cable.",Y,travel,Fictional teaching data
-B-R02,2026-07-09,COMP-B,4,Good office portion,"The small load works for my one mug at the office.",Y,office,Fictional teaching data
-B-R03,2026-07-16,COMP-B,3,Slow with fine settings,"It is fine for my regular brew, but the finer setting takes longer than I expected.",Y,speed,Fictional teaching data
-B-R04,2026-07-24,COMP-B,3,Too small for two,"I need to refill it when making coffee for two people.",Y,capacity,Fictional teaching data
-B-R05,2026-07-30,COMP-B,4,Handle packs neatly,"The folding handle saves room, though opening it adds a step each time.",N,storage,Fictional teaching data
-

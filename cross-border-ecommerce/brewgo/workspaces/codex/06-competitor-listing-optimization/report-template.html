@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BrewGo G2 竞品分析</title>
+  <style>
+    :root { color-scheme: light; --ink:#172033; --muted:#667085; --line:#dce2ea; --paper:#fff; --soft:#f5f7fa; --brand:#b54b2a; --good:#16794a; --warn:#9a6700; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--soft); color:var(--ink); font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    main { width:min(1180px,calc(100% - 32px)); margin:32px auto 64px; }
+    header,section { background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:24px; margin-bottom:18px; }
+    h1,h2,h3 { margin:0 0 12px; line-height:1.25; }
+    h1 { font-size:30px; } h2 { font-size:21px; } h3 { font-size:16px; }
+    .eyebrow { color:var(--brand); font-weight:700; letter-spacing:.04em; text-transform:uppercase; }
+    .meta,.note { color:var(--muted); }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+    .card { border:1px solid var(--line); border-radius:10px; padding:16px; }
+    .rank { color:var(--brand); font-size:22px; font-weight:800; }
+    table { width:100%; border-collapse:collapse; display:block; overflow:auto; }
+    th,td { border-bottom:1px solid var(--line); padding:10px; text-align:left; vertical-align:top; min-width:120px; }
+    th { background:var(--soft); }
+    a { color:#175cd3; }
+    .status { display:inline-block; border-radius:999px; padding:3px 9px; background:#ecfdf3; color:var(--good); font-size:12px; font-weight:700; }
+    .warning { border-left:4px solid var(--warn); padding-left:12px; }
+    ol,ul { padding-left:22px; }
+    pre { white-space:pre-wrap; background:var(--soft); padding:14px; border-radius:8px; }
+    @media (max-width:640px) { main { width:min(100% - 18px,1180px); margin-top:12px; } header,section { padding:16px; } }
+  </style>
+</head>
+<body>
+<main id="app"></main>
+<script>
+const REPORT_DATA = {"status":"template","keyword":"","researchedAt":"","confirmedAt":"","category":"","selectionNotes":[],"products":[],"comparison":[],"opportunities":[],"listing":{"title":"","bullets":[],"description":"","searchTerms":""},"changes":[],"limitations":[],"sources":[]};
+const app=document.querySelector('#app');
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl=v=>{try{const u=new URL(String(v));return ['https:','http:'].includes(u.protocol)?u.href:'#'}catch{return '#'}};
+const list=items=>`<ul>${(items||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`;
+const rows=(items,keys)=>items.map(item=>`<tr>${keys.map(k=>`<td>${esc(item[k])}</td>`).join('')}</tr>`).join('');
+app.innerHTML=`
+<header><div class="eyebrow">Confirmed competitor set · Human review required</div><h1>BrewGo G2 竞品分析</h1><p class="meta">关键词：${esc(REPORT_DATA.keyword)} · BSR 类目：${esc(REPORT_DATA.category)} · 检索：${esc(REPORT_DATA.researchedAt)} · 确认：${esc(REPORT_DATA.confirmedAt)}</p></header>
+<section><h2>筛选说明</h2>${list(REPORT_DATA.selectionNotes)}</section>
+<section><h2>已确认产品</h2><div class="grid">${REPORT_DATA.products.map((p,i)=>`<article class="card"><div class="rank">#${i+1}</div><h3>${esc(p.brand)} · ${esc(p.title)}</h3><p>ASIN ${esc(p.asin)}<br>BSR ${esc(p.bsr)} in ${esc(p.category)}</p><span class="status">${esc(p.evidenceStatus)}</span><p><a href="${safeUrl(p.url)}">商品来源</a></p></article>`).join('')}</div></section>
+<section><h2>比较矩阵</h2><table><thead><tr><th>维度</th><th>BrewGo</th><th>竞品观察</th><th>证据边界</th></tr></thead><tbody>${rows(REPORT_DATA.comparison,['dimension','brewgo','competitors','boundary'])}</tbody></table></section>
+<section><h2>优化机会</h2>${REPORT_DATA.opportunities.map(o=>`<article class="card"><h3>${esc(o.title)}</h3><p>${esc(o.competitorObservation)}</p><p><strong>BrewGo 证据：</strong>${esc(o.brewgoEvidence)} · ${esc(o.evidenceLevel)}</p><p><strong>建议：</strong>${esc(o.action)}</p><p class="warning"><strong>边界：</strong>${esc(o.riskBoundary)}</p></article>`).join('')}</section>
+<section><h2>优化后 Listing</h2><h3>Title</h3><p>${esc(REPORT_DATA.listing.title)}</p><h3>5 Bullets</h3>${list(REPORT_DATA.listing.bullets)}<h3>Description</h3><p>${esc(REPORT_DATA.listing.description)}</p><h3>Backend Search Terms</h3><pre>${esc(REPORT_DATA.listing.searchTerms)}</pre></section>
+<section><h2>变更依据</h2><table><thead><tr><th>原文</th><th>修改</th><th>依据</th><th>风险处理</th></tr></thead><tbody>${rows(REPORT_DATA.changes,['original','revision','basis','riskHandling'])}</tbody></table></section>
+<section><h2>局限与来源</h2>${list(REPORT_DATA.limitations)}<ol>${REPORT_DATA.sources.map(s=>`<li><a href="${safeUrl(s.url)}">${esc(s.label)}</a> · ${esc(s.accessedAt)}</li>`).join('')}</ol></section>`;
+</script>
+</body>
+</html>

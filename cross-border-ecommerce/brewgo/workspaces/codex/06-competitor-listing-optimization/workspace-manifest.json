@@ -1,5 +1,5 @@
 {
-  "data_version": "brewgo-v1.2-20260818",
+  "data_version": "brewgo-v1.3-20260819",
   "generated_files": {
     "AGENTS.md": "5eb044c4c6367b766cda455dc928f5da5bb87567765bc75c07931a17e1462be6",
     "business/brand_rules.md": "8d6df5f0e19809b89b8aeca8c379ce014837dac20453f2215f582707819249f9",
@@ -7,19 +7,14 @@
     "business/field_dictionary.md": "c9a312c763a19462d35fe098d157516cbbbc72751b5b196e9d83aee19f9b5f15",
     "business/product_profile_g2.md": "1f332c62d5fb340540803d5a2d4fdfe5908e055e527ca24466b3fd69a2849ff8",
     "business/store_profile.md": "35d4b019bf4202a439f63db6fbb7f6cd226d4571ec1d7013f4bc101e59cf270b",
-    "input/competitors/competitor_a_listing.md": "cb345bcf8017b0fc0030c6418bf253ccf9919d167c930e51e5b47df764e44a2c",
-    "input/competitors/competitor_a_reviews.csv": "40ddf24e79a987e9e9e863c55062e09ad6e4be3f64b61f36d1a8e90a9a837490",
-    "input/competitors/competitor_b_listing.md": "0e5ab4c63ea6b1b63323827f6211c14af46d2286b2a4b25300b6b7316f1a08a3",
-    "input/competitors/competitor_b_reviews.csv": "f213be59388ccdb36730bf7ed23c52ac1467d241a34cd5ca619fe848ee0bd470",
-    "input/competitors/competitor_c_listing.md": "94bcbd14c2ad778421c807d4c1f04f60d58f976eefc8891bf34404743d5d6b0d",
-    "input/competitors/competitor_c_reviews.csv": "f89cb641637128e510e00e470177a2d9953fda8a4e8c1f73551e0742d2c52fe9",
     "input/listing_current.md": "94e806f7ea928fecb8094290ffb004c93b32f42f749d832e8868d058f0e3fbf4",
     "input/product_profile_g2.md": "1f332c62d5fb340540803d5a2d4fdfe5908e055e527ca24466b3fd69a2849ff8",
     "input/products.xlsx": "47c0a55c74b8f32b85220632b86535ad8ed26791dea4e2e9afb1b6cf8b59ef07",
     "input/reviews.csv": "fcc131ac9d19ecbd8688c3e5bbd5d7b047d67a1a127c2839b291688de78e40f4",
     "outputs/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "project-context.md": "30186dac8e17e20a6373780e08aac1695cc7fee14d024ff74c91e644c09c97af",
-    "task.md": "f206618fcc0c5ec5710f1cfe6be6e3ad1a7b6c116da4b7bbffbe3ad0f6b02875"
+    "report-template.html": "5a0a9af27240e6223fbdd9066924543f55ac35b361951eedd522fe96c74a6334",
+    "task.md": "399594071cee2f04f61a9bb39c1429b8164d78c01524dceac310284c3d40e65c"
   },
   "source": "Agent-demo-data/cross-border-ecommerce/brewgo",
   "stage": "06-competitor-listing-optimization",

@@ -15,20 +15,36 @@
 
 ## 输入
 
-将工作区 `task.md` 原样交给 Codex。不要提前指出 USB-C、38 settings、easy cleaning 或 carry-on 的正确结论，让智能体自己完成证据分级和机会判断。
+在对话中输入一个关键词，例如：
+
+> `manual coffee grinder`。请按 `task.md` 执行。
+
+不粘贴任何 HTML。第一轮只允许 Codex 检索、核验 BSR 并返回拟采用的最多 5 个产品。
+
+## 确认门槛
+
+检查第一轮对话中的确认表是否包含 ASIN、完整 BSR、具体类目、URL、访问时间和证据状态。Codex 必须明确询问是否确认，并在这里暂停；此时 `outputs/` 仍应只有 `.gitkeep`。
+
+教师可先要求替换一个候选或解释类目选择，观察 Codex 是否重新确认。最终输入：
+
+> 确认使用这组产品，继续生成分析页面。
+
+只有此后才允许生成 `outputs/competitor-analysis.html`。
 
 ## 建议展示顺序
 
 1. 当前 Listing：快速指出这是 Demo 01 使用过的同一份 BrewGo 草稿，不重新逐条讲完所有旧错误。
-2. 竞品资料：展示 A 的性能型电动定位、B 的便携手摇定位和 C 的体验型定位。
-3. AI 对比分析：重点打开 `optimization-opportunities.md`，检查智能体如何判断“可用、不可用、需要限制”。
-4. 优化后的 Listing：展示差异化定位如何进入 Title、Bullets、Description 和 Backend Search Terms。
-5. 变更追溯：用 `change_notes.md` 验证每项重要修改的依据和风险处理。
+2. 对话确认：展示 Codex 如何从关键词得到候选、核验同类目 BSR，并在人确认前暂停。
+3. HTML 页面：打开 `competitor-analysis.html`，检查确认后的产品、比较矩阵和机会判断。
+4. 优化后的 Listing：在同一页面展示差异化定位如何进入 Title、Bullets、Description 和 Backend Search Terms。
+5. 变更追溯：在同一页面验证每项重要修改的依据和风险处理。
 
 ## 重点观察
 
+- 是否区分搜索位置和 BSR，并且只在同一具体类目内排序。
+- 是否在用户确认前暂停，且没有提前写 HTML。
 - 是否先区分 BrewGo 事实、BrewGo 评论线索、竞品自我声明和竞品评论线索。
-- 是否把竞品 A 的电动、多档位和高转速错误迁移给 BrewGo。
+- 是否把在线竞品的电动、多档位和高转速错误迁移给 BrewGo。
 - 是否理解“不需要充电”是手摇产品的使用特征，而不是把没有 USB-C 简单写成缺点。
 - 是否从 BrewGo 评论中发现 carry-on、travel、office、single-cup 场景，并与产品尺寸、重量和手摇事实共同判断。
 - 是否因 BrewGo 清洁评论存在负面线索而拒绝 `easy to clean`。
@@ -37,13 +53,12 @@
 
 ## 如果结果意外偏弱
 
-先用 `demo-06-acceptance-checklist.md` 逐项验收，不直接告诉模型标准文案。追问它为每个机会补充“证据等级、是否可用于 Listing、风险边界”，观察它能否修正判断流程。
+先用 `demo-06-acceptance-checklist.md` 逐项验收。若未暂停，指出用户尚未确认并要求清空提前生成的业务输出；若 BSR 混类目，要求重新筛选并再次确认。
 
 ## 如果结果意外很好
 
-不要把措辞流畅等同于业务判断正确。抽查三个反例：A 的 38 settings、C 的 easy cleaning、任一竞品 slogan；再抽查三个正向机会：不需要充电、carry-on、office single-cup。要求指出来源文件和推理边界。
+不要把页面美观等同于业务判断正确。抽查 5 个商品的 BSR 来源与具体类目，再抽查电动/多档位、easy cleaning、不需要充电、carry-on 和 office single-cup 的依据与边界。
 
 ## 本 Demo 要证明
 
-竞品分析不是“竞品有什么，我们就补什么”。它的价值是帮助识别市场表达方式、发现自己的证据机会，并明确哪些能力不能迁移、哪些说法不能安全使用。
-
+竞品分析不是“搜到什么就自动采用”，也不是“竞品有什么，我们就补什么”。关键词启动检索，人确认数据集，AI 再把可追溯分析推入 HTML 展示。

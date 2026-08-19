@@ -1,0 +1,4 @@
+interface:
+  display_name: "Instagram 潜客发现"
+  short_description: "发现并核验 Instagram 假发行业潜客，生成中文名单"
+  default_prompt: "使用 $instagram-lead-discovery 搜索并核验一批真实公开的 Instagram 假发行业潜客。"

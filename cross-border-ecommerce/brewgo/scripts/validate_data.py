@@ -37,15 +37,6 @@ ROW_RANGES = {
 }
 
 DEMO06_STAGE = "06-competitor-listing-optimization"
-DEMO06_COMPETITOR_FILES = tuple(
-    f"competitor_{letter}_{kind}.{extension}"
-    for letter in "abc"
-    for kind, extension in (("listing", "md"), ("reviews", "csv"))
-)
-DEMO06_REVIEW_HEADERS = {
-    "review_id", "review_date", "competitor_id", "rating", "title",
-    "review_text", "verified_purchase", "topic_hint", "data_notice",
-}
 
 
 def normalized_sku(value: str) -> str:
@@ -120,36 +111,24 @@ def validate_demo06(project_root: Path) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
     source_root = project_root / "classroom" / DEMO06_STAGE
-    competitor_root = source_root / "input" / "competitors"
-    for relative in ("README.md", "task.md"):
+    for relative in ("README.md", "task.md", "report-template.html"):
         if not (source_root / relative).is_file():
             errors.append(f"classroom/{DEMO06_STAGE}: missing {relative}")
-    for filename in DEMO06_COMPETITOR_FILES:
-        path = competitor_root / filename
-        if not path.is_file():
-            errors.append(f"classroom/{DEMO06_STAGE}: missing competitor file {filename}")
-            continue
-        if filename.endswith("_listing.md"):
-            text = path.read_text(encoding="utf-8")
-            if "FICTIONAL TEACHING DATA" not in text:
-                errors.append(f"{filename}: missing fictional teaching data notice")
-            if "seller claims" not in text:
-                errors.append(f"{filename}: missing seller-claim evidence notice")
-        else:
-            try:
-                rows = csv_dicts(path)
-            except Exception as exc:
-                errors.append(f"{filename}: cannot read ({exc})")
-                continue
-            fields = set(rows[0]) if rows else set()
-            absent = DEMO06_REVIEW_HEADERS - fields
-            if absent:
-                errors.append(f"{filename}: missing fields {', '.join(sorted(absent))}")
-            if len(rows) < 4:
-                errors.append(f"{filename}: requires at least 4 review rows")
-            for row_number, row in enumerate(rows, start=2):
-                if row.get("data_notice") != "Fictional teaching data":
-                    errors.append(f"{filename} row {row_number}: missing fictional teaching data notice")
+    task_path = source_root / "task.md"
+    if task_path.is_file():
+        task_text = task_path.read_text(encoding="utf-8")
+        required_phrases = ("请求用户确认并暂停", "不得生成分析结论", "competitor-analysis.html", "report-template.html", "不同类目不得混排")
+        for phrase in required_phrases:
+            if phrase not in task_text:
+                errors.append(f"Demo 06 task: missing workflow requirement {phrase!r}")
+    template_path = source_root / "report-template.html"
+    if template_path.is_file():
+        template_text = template_path.read_text(encoding="utf-8")
+        for marker in ("const REPORT_DATA =", "Confirmed competitor set", "优化后 Listing", "局限与来源"):
+            if marker not in template_text:
+                errors.append(f"Demo 06 report template: missing marker {marker!r}")
+        if re.search(r"<(?:script|link)[^>]+(?:src|href)=[\"']https?://", template_text, re.IGNORECASE):
+            errors.append("Demo 06 report template: external script or stylesheet dependency found")
 
     workspace = project_root / "workspaces" / "codex" / DEMO06_STAGE
     if not workspace.exists():
@@ -168,10 +147,9 @@ def validate_demo06(project_root: Path) -> tuple[list[str], list[str]]:
         errors.append("Demo 06 workspace: manifest stage mismatch")
     generated = manifest.get("generated_files", {})
     required_generated = {
-        "AGENTS.md", "project-context.md", "task.md", "outputs/.gitkeep",
+        "AGENTS.md", "project-context.md", "task.md", "report-template.html", "outputs/.gitkeep",
         "input/listing_current.md", "input/product_profile_g2.md", "input/products.xlsx",
         "input/reviews.csv",
-        *(f"input/competitors/{name}" for name in DEMO06_COMPETITOR_FILES),
     }
     missing_generated = required_generated - set(generated)
     if missing_generated:
@@ -182,11 +160,11 @@ def validate_demo06(project_root: Path) -> tuple[list[str], list[str]]:
             errors.append(f"Demo 06 workspace: missing generated file {relative}")
         elif file_sha256(path) != expected_hash:
             errors.append(f"Demo 06 workspace: hash mismatch for {relative}")
-    for filename in DEMO06_COMPETITOR_FILES:
-        source = competitor_root / filename
-        copied = workspace / "input" / "competitors" / filename
-        if source.is_file() and copied.is_file() and source.read_bytes() != copied.read_bytes():
-            errors.append(f"Demo 06 workspace: competitor copy differs for {filename}")
+    copied_template = workspace / "report-template.html"
+    if template_path.is_file() and copied_template.is_file() and template_path.read_bytes() != copied_template.read_bytes():
+        errors.append("Demo 06 workspace: report template differs from Source of Truth")
+    if (workspace / "input" / "competitors").exists():
+        errors.append("Demo 06 workspace: obsolete preloaded competitor directory still exists")
     business_outputs = [path for path in (workspace / "outputs").iterdir() if path.name != ".gitkeep"] if (workspace / "outputs").is_dir() else []
     if business_outputs:
         errors.append("Demo 06 workspace: outputs contains pre-generated business answers")

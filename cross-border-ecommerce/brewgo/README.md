@@ -25,7 +25,7 @@
 3. classroom/03-project-context：再次只给一句自然指令，但工作区加入 AGENTS.md、project-context.md 和 business/ 长期业务环境，用于观察稳定项目规则对执行方式的影响。
 4. classroom/04-fba-profit-calculator：给智能体业务规则与成本资料，现场生成可运行的 FBA 单件利润测算器，观察缺失数据与口径冲突边界。
 5. classroom/05-search-term-skill：第一次把 Search Term 分析方法完整交给智能体，第二次沉淀成 Skill，第三次新会话只给一句任务复跑，展示"反复出现的工作方法沉淀成 Skill"。
-6. classroom/06-competitor-listing-optimization：基于同一 BrewGo G2，先做竞品观察与证据判断，再优化 Listing，展示“先判断为什么改，再改文案”。
+6. classroom/06-competitor-listing-optimization：用户只给关键词，智能体在线核验同类目 BSR 前 5，先在对话确认，再把竞品分析与 Listing 建议写入离线 HTML。
 
 ## 数据口径
 
